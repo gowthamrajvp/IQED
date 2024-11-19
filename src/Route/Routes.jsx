@@ -34,7 +34,6 @@ export const Routers = createBrowserRouter(
       {/* <Route path="auth" element={<AuthPage />} /> */}
       <Route path="Result" element={<GQSuccessPage />} />
       {/* <Route path="test" element={<BellCurveChart />} /> */}
-
       <Route path="quiz" element={<Outlet />}>
         <Route path="loader/:sessionId" element={<Quizloader />} />
         <Route path=":sessionId" element={<QuizLayout />}>
@@ -64,5 +63,8 @@ export const Routers = createBrowserRouter(
         <Route path=":code" />
       </Route> */}
     </Route>
-  )
+  ),
+  {
+    basename: import.meta.env.BASE_URL, 
+  }
 );

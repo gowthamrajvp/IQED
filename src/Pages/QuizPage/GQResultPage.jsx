@@ -11,7 +11,7 @@ import {
   useTheme,
 } from "@mui/material";
 import ConfettiEffect from "./ConfettiEffec";
-import {  popGIF, Poppins_Bold } from "../../assets";
+import { popGIF, Poppins_Bold } from "../../assets";
 
 import { Link, useNavigate } from "react-router-dom";
 import EmailIcon from "@mui/icons-material/Email";
@@ -22,11 +22,10 @@ import { useLocation } from "react-router-dom";
 import { BellCurveChart, LandingHeader } from "../../Components";
 import { useSelector } from "react-redux";
 import { PDFDocument, rgb } from "pdf-lib";
-import {IQTestResultTem1 } from "../../assets/PDF";
+import { IQTestResultTem1 } from "../../assets/PDF";
 import * as fontkit from "fontkit";
 import { useUploadFileMutation } from "../../Redux/RTK/QuizAPI/QuizAPI";
 import toast from "react-hot-toast";
-
 
 const CssTextField = withStyles({
   root: {
@@ -67,31 +66,13 @@ const GQSuccessPage = () => {
   const [imageData, setImageData] = useState(null);
   const [UploadFileMutation] = useUploadFileMutation();
   const navigater = useNavigate();
-  const calculateIQ = (userScore) => {     
-    // Predefined scores array (you could replace this with a dynamic set of scores)
-    const scores = [30, 28, 32, 34, 31, 29, 27, 33, 35, 26];        
-     // Add the user score to the predefined scores arrayconst 
-     const  updatedScores = [...scores, userScore];     
-     // Calculate the mean and standard deviationconst 
-     const  mean = updatedScores.reduce((sum, score) => sum + score, 0) / updatedScores.length;     
-     const standardDeviation = Math.sqrt(       updatedScores.reduce((sum, score) => sum + Math.pow(score - mean, 2), 0) / (updatedScores.length - 1)     );     
-     // Calculate Z-score and then IQ (IQ = Z-score * 15 + 100)
-     const zScore = (userScore - mean) / standardDeviation;     
-     const calculatedIQ = (zScore * 15) + 100; 
-     return calculatedIQ.toFixed(2); 
-     };
-
-  const IQScre =calculateIQ(QuizState.score); 
-  if(iqscore==0){
-    setiqscore(IQScre)
-  }
-  console.log("QuizState.Score:", QuizState.Score);
+ 
+  
   const handleChartRendered = (data) => {
     setImageData(data); // Store the image data
     console.log("imageData:", imageData);
   };
- 
-  
+  console.log("QuizState.IQScore",QuizState.IQScore)
   const textFieldStyles = {
     borderRadius: 2,
     bgcolor: "#fff",
@@ -161,7 +142,6 @@ const GQSuccessPage = () => {
     //   font: customFont,
     // });
 
-
     // const chartImageBytes = await fetch(imageData).then((res) =>
     //   res.arrayBuffer()
     // );
@@ -204,19 +184,22 @@ const GQSuccessPage = () => {
     // const blob = new Blob([pdfBytes], { type: "application/pdf" });
     // console.log("chart is writed",blob);
 
-    toast.promise(UploadFileMutation({
-      file: imageData,
-      email: contact,
-      name:name,
-      score:iqscore  // Pass the email value
-    }), {
-      loading: "Send...",
-      success: () => {
-        navigater("/")
-        return <b>Check Your Email..</b>;
-      },
-      error: <b>Could not Add Try again.</b>,
-    });
+    toast.promise(
+      UploadFileMutation({
+        file: imageData,
+        email: contact,
+        name: name,
+        score: QuizState.IQScore, // Pass the email value
+      }),
+      {
+        loading: "Send...",
+        success: () => {
+          navigater("/");
+          return <b>Check Your Email..</b>;
+        },
+        error: <b>Could not Add Try again.</b>,
+      }
+    );
   };
 
   const validateContact = (value) => {
@@ -240,8 +223,8 @@ const GQSuccessPage = () => {
       setError(true);
     } else {
       setError(false);
-      // generatePdf(name, QuizState.score);
-      generatePdf(name, IQScre);
+    
+      generatePdf(name, QuizState.IQScore);
     }
   };
 
@@ -450,8 +433,8 @@ const GQSuccessPage = () => {
               spacing={2}
               sx={{
                 width: { md: "50%" },
-                display:'flex',
-                justifyContent:"center"
+                display: "flex",
+                justifyContent: "center",
               }}
             >
               <Button
@@ -466,7 +449,7 @@ const GQSuccessPage = () => {
                   boxShadow: "2px 3px #fff",
                   borderRadius: { xs: "5px", md: "8px" },
                   textTransform: "none",
-                  width:'30%',
+                  width: "30%",
                   border: "1px solid #fff",
                   "&:hover": {
                     color: "#ffff",
@@ -504,10 +487,12 @@ const GQSuccessPage = () => {
                 WhatsApp
               </Button> */}
             </Stack>
-            <BellCurveChart
-              userIQ={IQScre}
-              onChartRendered={handleChartRendered}
-            />
+            
+              <BellCurveChart
+                userIQ={QuizState.IQScore}
+                onChartRendered={handleChartRendered}
+              />
+            
             {/* <Typography
                 sx={{
                   textAlign: "center",

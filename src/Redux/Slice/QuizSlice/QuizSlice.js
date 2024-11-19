@@ -8,6 +8,7 @@ const initialState = {
   score: 0,
   isLive: true,
   time: 0,
+  IQScore:0,
 };
 
 const QuizSlice = createSlice({
@@ -16,6 +17,9 @@ const QuizSlice = createSlice({
   reducers: {
     setQuestions: (state, action) => {
       state.questionsList = action.payload;
+    },
+    setIq: (state, action) => {
+      state.IQScore = action.payload;
     },
     answerQuestion: (state, action) => {
       const { questionId, answer } = action.payload;
@@ -75,7 +79,8 @@ export const {
   resetQuiz,
   submitQuiz,
   setQuestionIndex,
-  setTimer
+  setTimer,
+  setIq
 } = QuizSlice.actions;
 
 export default QuizSlice;

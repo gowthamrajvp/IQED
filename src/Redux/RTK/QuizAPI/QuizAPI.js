@@ -2,7 +2,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 export const QuizApi = createApi({
   reducerPath: "QuizApi",
-  baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:8080/Quiz" }), // Replace with your actual base URL
+  baseQuery: fetchBaseQuery({ baseUrl: "https://iqedbackend.vercel.app/Quiz" }), // Replace with your actual base URL
   endpoints: (builder) => ({
     createQuizSession: builder.mutation({
       query: ({ categoryName, hostId }) => ({
@@ -21,7 +21,7 @@ export const QuizApi = createApi({
         body: { hostId, score, answeredQuestions, status },
       }),
     }),
-        updateQuizSession: builder.mutation({
+    updateQuizSession: builder.mutation({
       query: ({ sessionId, hostId, score, answeredQuestions, status }) => ({
         url: `/quiz-session/${sessionId}`,
         method: "PUT",
@@ -31,8 +31,8 @@ export const QuizApi = createApi({
     uploadFile: builder.mutation({
       query: (data) => {
         return {
-          url: '/upload',
-          method: 'POST',
+          url: "/upload",
+          method: "POST",
           body: data,
         };
       },
@@ -42,7 +42,7 @@ export const QuizApi = createApi({
 
 export const {
   useCreateQuizSessionMutation,
-  useGetQuizSessionByIdQuery, 
-useUpdateQuizSessionMutation,// Hook to fetch quiz session by ID
-useUploadFileMutation
+  useGetQuizSessionByIdQuery,
+  useUpdateQuizSessionMutation, // Hook to fetch quiz session by ID
+  useUploadFileMutation,
 } = QuizApi;

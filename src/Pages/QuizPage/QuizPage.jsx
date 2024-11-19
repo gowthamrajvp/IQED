@@ -43,7 +43,7 @@ const QuizPage = () => {
     <Box sx={{ height: "100%" }}>
       <Timer
         ref={timerRef}
-        initialTime={quizState?.questionsList.length * 60}
+        initialTime={25*60}
         start={!sessionLoading}
       />
       <QuestionDrawerList

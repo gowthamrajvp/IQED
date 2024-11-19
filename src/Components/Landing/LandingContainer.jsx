@@ -44,7 +44,7 @@ const LandingContainer = () => {
     "The test duration is approximately 25 minutes.",
   ];
   const handleQuizCraetion = () => {
-    navigate(`quiz/loader/Quiz`,{ replace: true } );
+    navigate(`quiz/loader/Quiz`);
 };
 
   const ageGroups = [

@@ -11,6 +11,7 @@ import {
 import {
   nextQuestion,
   prevQuestion,
+  setIq,
   setTimer,
   submitQuiz,
 } from "../../../Redux/Slice/QuizSlice/QuizSlice";
@@ -22,7 +23,7 @@ const useHandleQuizPage = (sessionId) => {
     error: sessionError,
     isLoading: sessionLoading,
   } = useGetQuizSessionByIdQuery(sessionId);
-  const [updateQuizSession] = useUpdateQuizSessionMutation();
+  const [updateQuizSession, { data:sessionData1 }] = useUpdateQuizSessionMutation();
   const [updateUserStats, { data }] = useUpdateUserStatsMutation();
 
   const UserData = useSelector((state) => state.UserState);
@@ -107,7 +108,7 @@ const useHandleQuizPage = (sessionId) => {
         score: quizState.score,
         answeredQuestions: quizState.answeredQuestions,
         status: "completed",
-      }).unwrap();
+      }).unwrap().then((QuizSession)=>{ dispatch(setIq(QuizSession.fulliqscore)) });
       toast.success("session Complated");
     } catch (error) {
       console.error("Failed to update quiz session:", error);

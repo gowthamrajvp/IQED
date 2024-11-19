@@ -2,7 +2,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 export const AuthApi = createApi({
   reducerPath: "AuthApi",
-  baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:8080/Auth" }),
+  baseQuery: fetchBaseQuery({ baseUrl: "https://iqedbackend.vercel.app/Auth" }),
   tagTypes: ["User"],
   endpoints: (builder) => ({
     signUp: builder.mutation({
