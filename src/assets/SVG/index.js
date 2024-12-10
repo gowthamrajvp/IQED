@@ -4,7 +4,7 @@ import BlueBackgroundSVG from "./Background/BlueLineBG.svg";
 import BlurContainerSVG from "./Others/BlurContainer.svg";
 import YellowDesignSVG from "./Others/YellowDesign.svg";
 import FireIconSVG from "./Icons/FireIcon.svg";
-import G_Medal from "./Others/G_medal.svg";
+import G_Medal from "./Others/G_Medal.svg";
 import S_Medal from "./Others/S_Medal.svg";
 import B_Medal from "./Others/B_Medal.svg";
 import Null_Medal from "./Others/Null_Medal.svg";
