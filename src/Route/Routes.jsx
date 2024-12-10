@@ -64,18 +64,18 @@ export const Routers = createBrowserRouter(
           </Route>
         </Route>
       </Route>
-      <Route path="IQquiz" element={<Outlet />}>
-        <Route path=":sessionId" element={<IQQuizLayout />}>
-          <Route index element={<IQQuizPage />} />
-          <Route path="result" element={<GQSuccessPage />} />
-        </Route>
-      </Route> */}
-      {/* <Route path="match" element={<MatchLayout />}>
+      <Route path="match" element={<MatchLayout />}>
         <Route path=":GameCode" element={<Outlet />}>
           <Route index element={<MatchLobby />} loader={OnLoadLobby} />
           <Route path=":GameSessionId" element={<MPQuizPage />} />3w
         </Route>
       </Route> */}
+      <Route path="IQquiz" element={<Outlet />}>
+        <Route path=":sessionId" element={<IQQuizLayout />}>
+          <Route index element={<IQQuizPage />} />
+          <Route path="result" element={<GQSuccessPage />} />
+        </Route>
+      </Route>
       <Route path="*" element={<PageNotFound/>} />
     </Route>
   )
