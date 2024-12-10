@@ -21,7 +21,7 @@ export const Routers = createBrowserRouter(
    
       <Route path="/" element={<RootLayout />}>
         <Route index element={<LandingPage />} />
-        <Route path="auth" element={<AuthPage />} />
+        {/* <Route path="auth" element={<AuthPage />} /> */}
 
         {/* <Route element={<AuthLayout />}>
         <Route element={<UserLayout />}>

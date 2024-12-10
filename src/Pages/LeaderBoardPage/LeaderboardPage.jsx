@@ -11,7 +11,9 @@ import SearchIcon from "@mui/icons-material/Search";
 // import { useGetUsersSortedByMaxStreakAndMinRankQuery } from "../../Redux/RTK/AuthAPI/AuthAPI";
 
 import { LoadingScreen } from "../../Components";
-import { B_Medal, CUP, G_Medal, Null_Medal, S_Medal } from "../../assets";
+import { B_Medal, CUP, 
+  // G_Medal,
+   Null_Medal, S_Medal } from "../../assets";
 import { useGetleaderboardQuery } from "../../Redux/API/User.Api";
 
 const mockLeaderboardData = [
@@ -117,7 +119,7 @@ const LeaderboardHeader = () => (
 const LeaderboardRow = ({ player, index }) => {
   // Determine which medal to display based on rank
   let medalSrc = Null_Medal;
-  if (index+1 === 1) medalSrc = G_Medal; // Gold medal for 1st place
+  if (index+1 === 1) medalSrc = S_Medal; // Gold medal for 1st place
   else if (index+1  === 2) medalSrc = S_Medal; // Silver medal for 2nd place
   else if (index+1  === 3) medalSrc = B_Medal;
 

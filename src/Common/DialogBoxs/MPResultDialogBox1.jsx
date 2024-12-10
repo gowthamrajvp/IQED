@@ -25,7 +25,7 @@ import {
 } from "@mui/material";
 import LeaderboardIcon from "@mui/icons-material/Leaderboard";
 import { useSelector } from "react-redux";
-import { CUP, G_Medal, IQCoinIcon, MathBannerIMG, S_Medal } from "../../assets";
+import { CUP,  IQCoinIcon, MathBannerIMG, S_Medal } from "../../assets";
 import CloseIcon from "@mui/icons-material/Close";
 import PeopleIcon from "@mui/icons-material/People";
 import { MPRewardCard, VSCard } from "../Cards";
@@ -120,7 +120,7 @@ const MPResultDialogBox = ({
 
   const LeaderboardRow = ({ player }) => {
     let medalSrc = S_Medal;
-    if (ResultMessage === "You Win") medalSrc = G_Medal; 
+    // if (ResultMessage === "You Win") medalSrc = G_Medal; 
 
     return (
       <Box

@@ -85,7 +85,7 @@ const useHandleIQQuizPage = () => {
         dispatch(submitQuiz());
         setResultDialog(true);
         toast.success("session Complated");
-        navigate(`/IQquiz/${IQQuizState._id}/result`);
+        navigate(`/IQquiz/${IQQuizState._id}/result`, { replace: true });
       });
     } catch (error) {
       console.error("Failed to update quiz session:", error);
