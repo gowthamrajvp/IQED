@@ -15,6 +15,7 @@ import GQSuccessPage from "../Pages/IQQuizPage/GQResultPage";
 import IQQuizLayout from "../Pages/Layout/IQQuizLayout";
 import IQQuizPage from "../Pages/IQQuizPage/IQQuizPage";
 
+const basename = import.meta.env.BASE_URL;
 export const Routers = createBrowserRouter(
   createRoutesFromElements(
    
@@ -60,7 +61,7 @@ export const Routers = createBrowserRouter(
         <Route path="*" element={<PageNotFound/>} />
       </Route>
   
-  )
-  ,
-  {basename:import.meta.env.BASE_URL}
-);
+  ),
+  { basename }
+ 
+) ;
