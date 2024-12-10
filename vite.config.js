@@ -3,7 +3,7 @@ import react from '@vitejs/plugin-react';
 import removeConsole from 'vite-plugin-remove-console';
 
 export default defineConfig({
-  base: "/IQED/",
+  // base: "/IQED/",
   plugins: [
     react(),
     removeConsole(), 
