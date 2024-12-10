@@ -61,6 +61,6 @@ export const Routers = createBrowserRouter(
       </Route>
   
   )
-//   ,
-//   {basename:import.meta.env.BASE_URL}
+  ,
+  {basename:import.meta.env.BASE_URL}
 );
