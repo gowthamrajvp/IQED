@@ -6,35 +6,14 @@ import {
 } from "react-router-dom";
 
 import RootLayout from "../Pages/Layout/RootLayout";
-import AuthLayout from "../Pages/Layout/AuthLayout";
 import {
   LandingPage,
   AuthPage,
-  ExplorePage,
-  MissionPage,
-  GamePage,
-  MatchLobby,
-  QuizPage,
-  ProfilePage,
-  LeaderboardPage,
-  FeedBackPage,
-  StorePage,
-  MPQuizPage,
   PageNotFound,
 } from "../Pages";
-import UserLayout from "../Pages/Layout/UserLayout";
-import MatchLayout from "../Pages/Layout/MatchLayout";
-import { OnLoadLobby } from "../Pages/GamePage/MatchPage/MatchLobby";
-import QuizLayout from "../Pages/Layout/QuizLayout";
 import GQSuccessPage from "../Pages/IQQuizPage/GQResultPage";
-import { Shipping } from "../Components";
-import OrdersPage from "../Components/Store/OrderDetail";
-import StoreOrderLayout from "../Pages/Layout/StoreOrderLayout";
-import YourOrders from "../Components/Store/YourOrders";
-import OrderDetail from "../Components/Store/OrderDetail";
 import IQQuizLayout from "../Pages/Layout/IQQuizLayout";
 import IQQuizPage from "../Pages/IQQuizPage/IQQuizPage";
-import { BrowserRouter } from "react-router-dom/dist";
 
 export const Routers = createBrowserRouter(
   createRoutesFromElements(
