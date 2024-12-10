@@ -120,7 +120,7 @@ const MPResultDialogBox = ({
 
   const LeaderboardRow = ({ player }) => {
     let medalSrc = S_Medal;
-    if (ResultMessage === "You Win") medalSrc = G_Medal; // Gold medal for 1st place
+    if (ResultMessage === "You Win") medalSrc = G_Medal; 
 
     return (
       <Box
