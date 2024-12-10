@@ -34,9 +34,11 @@ import YourOrders from "../Components/Store/YourOrders";
 import OrderDetail from "../Components/Store/OrderDetail";
 import IQQuizLayout from "../Pages/Layout/IQQuizLayout";
 import IQQuizPage from "../Pages/IQQuizPage/IQQuizPage";
+import { BrowserRouter } from "react-router-dom/dist";
 
 export const Routers = createBrowserRouter(
   createRoutesFromElements(
+    <BrowserRouter basename={import.meta.env.BASE_URL}>
     <Route path="/" element={<RootLayout />}>
       <Route index element={<LandingPage />} />
       <Route path="auth" element={<AuthPage />} />
@@ -78,5 +80,7 @@ export const Routers = createBrowserRouter(
       </Route>
       <Route path="*" element={<PageNotFound/>} />
     </Route>
-  )
+    </BrowserRouter>
+  ),
+  
 );
