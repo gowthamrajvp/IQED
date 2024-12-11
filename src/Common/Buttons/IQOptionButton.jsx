@@ -43,7 +43,7 @@ const IQOptionButton = ({ quiz, type = "text", content ,index}) => {
           transition: "transform 0.3s ease-in-out",
           transform: "translateY(-1px)",
           backgroundColor: "#FFDA55",
-          boxShadow: "2px 3px #0b276b",
+          boxShadow: "2px 3px white",
           color: "#02216F",
         },
       }}

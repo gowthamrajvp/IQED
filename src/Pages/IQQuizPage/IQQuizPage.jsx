@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 // MUI
 import { Backdrop, Box, Button, CircularProgress } from "@mui/material";
@@ -10,13 +10,32 @@ import { ResultDialogBox, Timer } from "../../Common";
 import { useHandleIQQuizPage } from "../util";
 import { useGetQuizSessionMutation } from "../../Redux/API/IQ.Quiz.Api";
 import { useDispatch } from "react-redux";
-import {IQQuestionDrawerList,IQQuestionBox,IQQuizProgressBar,Quizloader } from "../../Components";
-
+import {
+  IQQuestionDrawerList,
+  IQQuestionBox,
+  IQQuizProgressBar,
+  Quizloader,
+} from "../../Components";
+import toast from "react-hot-toast";
 
 const IQQuizPage = () => {
   const [initialLoading, setInitialLoading] = useState(true);
   const [fadeIn, setFadeIn] = useState(false);
   const [getQuizSession] = useGetQuizSessionMutation();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const unloadCallback = (event) => {
+      event.preventDefault();
+      event.returnValue = "";
+      return "";
+    };
+
+    window.addEventListener("beforeunload", unloadCallback);
+
+    return () => window.removeEventListener("beforeunload", unloadCallback);
+  }, []);
+
   const {
     IQQuizState,
     sessionLoading,
@@ -30,7 +49,7 @@ const IQQuizPage = () => {
     handleQuit,
     handleSubmit,
   } = useHandleIQQuizPage();
-  const dispatch= useDispatch();
+  const dispatch = useDispatch();
   const enterFullscreen = () => {
     const elem = document.documentElement;
     if (elem.requestFullscreen) {
@@ -74,11 +93,7 @@ const IQQuizPage = () => {
         transition: "opacity 1s ease",
       }}
     >
-      <Timer
-        ref={timerRef}
-        initialTime={25* 60}
-        start={!sessionLoading}
-      />
+      <Timer ref={timerRef} initialTime={25 * 60} start={!sessionLoading} />
       <IQQuestionDrawerList
         sessionState={IQQuizState}
         open={isQuestionList}
@@ -103,7 +118,7 @@ const IQQuizPage = () => {
       >
         <KeyboardDoubleArrowRight />
       </Button>
-      
+
       <IQQuestionBox
         index={IQQuizState?.currentQuestionIndex}
         Question={IQQuizState?.questionsList[IQQuizState?.currentQuestionIndex]}

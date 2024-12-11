@@ -198,6 +198,7 @@ const GQSuccessPage = () => {
       {
         loading: "Send...",
         success: () => {
+          sessionStorage.removeItem("IQSessionID")
           navigater("/");
           return <b>Check Your Email..</b>;
         },

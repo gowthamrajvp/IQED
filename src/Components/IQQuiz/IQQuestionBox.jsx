@@ -23,7 +23,7 @@ const IQQuestionBox = ({ index, Question }) => {
   if (!Question || !Question.options || Question.options.length === 0) {
     return <Typography variant="h6" color="white">No options available for this question.</Typography>;
   }
-console.log(Question)
+
   return (
     <Box
       sx={{
@@ -80,10 +80,13 @@ console.log(Question)
                 width:{lg: "250px", md: "200px", xs: "180px"},
                 height: "auto",
                 maxWidth: "100%",
-                 mb:'4%'
+                 mb:'4%',
+                 borderRadius:'10px',
+                 border:'4px solid #FFDA55',
+                 boxShadow: "2px 3px #0b276b",
               }}
               onClick={handleOpen}
-              alt="Rabbit"
+              alt="QuestionImage"
             />
           )}
         </Box>
