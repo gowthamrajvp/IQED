@@ -61,7 +61,8 @@ export const Routers = createBrowserRouter(
         <Route path="*" element={<PageNotFound/>} />
       </Route>
   
-  ),
-  { basename }
+  )
+  // ,
+  // { basename }
  
 ) ;
