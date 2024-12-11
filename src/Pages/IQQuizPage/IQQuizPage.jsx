@@ -8,7 +8,7 @@ import { KeyboardDoubleArrowRight } from "@mui/icons-material";
 // Components and Hooks
 import { ResultDialogBox, Timer } from "../../Common";
 import { useHandleIQQuizPage } from "../util";
-import { useGetQuizSessionQuery } from "../../Redux/API/IQ.Quiz.Api";
+import { useGetQuizSessionMutation } from "../../Redux/API/IQ.Quiz.Api";
 import { useDispatch } from "react-redux";
 import {IQQuestionDrawerList,IQQuestionBox,IQQuizProgressBar,Quizloader } from "../../Components";
 

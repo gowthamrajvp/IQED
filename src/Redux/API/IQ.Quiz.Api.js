@@ -5,7 +5,7 @@ export const IQQuizApi = createApi({
   baseQuery: fetchBaseQuery({
     // baseUrl: "https://iqedbackend.vercel.app/IQ",
     
-    baseUrl: "https://iqedbackend.vercel.app/IQ",
+    baseUrl: "https://iqed-backend1-five.vercel.app/IQ",
     credentials: "include",
   }
 ),

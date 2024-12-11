@@ -10,17 +10,15 @@ import {
 } from "../../../Redux/Slice/IQQuizSlice/IQQuizSlice";
 import { UpdateUser } from "../../../Redux/Slice/UserSlice/UserSlice";
 import {
-  useGetQuizSessionQuery,
+  useGetQuizSessionMutation,
   useUpdateQuizSessionMutation,
 } from "../../../Redux/API/IQ.Quiz.Api";
 
 
 const useHandleIQQuizPage = () => {
-  const {
-    data: sessionData,
+  const [getQuizSession, {data: sessionData,
     error: sessionError,
-    isLoading: sessionLoading,
-  } = useGetQuizSessionQuery();
+    isLoading: sessionLoading,}] = useGetQuizSessionMutation();
   const [updateQuizSession, { data }] = useUpdateQuizSessionMutation();
 
   const dispatch = useDispatch();
@@ -40,6 +38,7 @@ const useHandleIQQuizPage = () => {
 
 
   useEffect(() => {
+    getQuizSession()
     if (
       sessionData &&
       IQQuizState?.questionsList.length ==
