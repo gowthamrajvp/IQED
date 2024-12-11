@@ -14,11 +14,11 @@ import {
   useUpdateQuizSessionMutation,
 } from "../../../Redux/API/IQ.Quiz.Api";
 
-
 const useHandleIQQuizPage = () => {
-  const [getQuizSession, {data: sessionData,
-    error: sessionError,
-    isLoading: sessionLoading,}] = useGetQuizSessionMutation();
+  const [
+    getQuizSession,
+    { data: sessionData, error: sessionError, isLoading: sessionLoading },
+  ] = useGetQuizSessionMutation();
   const [updateQuizSession, { data }] = useUpdateQuizSessionMutation();
 
   const dispatch = useDispatch();
@@ -36,11 +36,9 @@ const useHandleIQQuizPage = () => {
     }
   }, [sessionError, navigate]);
 
-
   useEffect(() => {
-    getQuizSession()
     if (
-      sessionData &&
+      IQQuizState._id &&
       IQQuizState?.questionsList.length ==
         Object.keys(IQQuizState.answeredQuestions).length
     ) {
@@ -49,7 +47,8 @@ const useHandleIQQuizPage = () => {
       setisQuestionList(true);
     }
   }, [IQQuizState.answeredQuestions]);
-
+  console.log("IQQuizState",IQQuizState);
+  console.log("sessionData",sessionData);
 
   const handleOnPrevious = () => {
     dispatch(prevQuestion());
@@ -75,17 +74,18 @@ const useHandleIQQuizPage = () => {
     const currentTime = timerRef.current.getCurrentTime();
     dispatch(setTimer(currentTime));
 
-    
     try {
       updateQuizSession({
         answeredQuestions: IQQuizState.answeredQuestions,
-        timeTaken:currentTime
-      }).unwrap().then(() => {
-        dispatch(submitQuiz());
-        setResultDialog(true);
-        toast.success("session Complated");
-        navigate(`/IQquiz/${IQQuizState._id}/result`, { replace: true });
-      });
+        timeTaken: currentTime,
+      })
+        .unwrap()
+        .then(() => {
+          dispatch(submitQuiz());
+          setResultDialog(true);
+          toast.success("session Complated");
+          navigate(`/IQquiz/${IQQuizState._id}/result`, { replace: true });
+        });
     } catch (error) {
       console.error("Failed to update quiz session:", error);
       toast.error("sorry session not save");
@@ -94,7 +94,8 @@ const useHandleIQQuizPage = () => {
   };
 
   const progressValue =
-    (IQQuizState?.answeredQuestions.length / IQQuizState?.questionsList.length) *
+    (IQQuizState?.answeredQuestions.length /
+      IQQuizState?.questionsList.length) *
     100;
 
   return {

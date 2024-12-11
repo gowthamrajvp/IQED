@@ -193,6 +193,7 @@ const GQSuccessPage = () => {
         file: imageData,
         email: contact,
         name: name,
+        sessionId:sessionStorage.getItem("IQSessionID"),
       }),
       {
         loading: "Send...",
