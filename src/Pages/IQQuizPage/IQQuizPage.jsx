@@ -16,7 +16,7 @@ import {IQQuestionDrawerList,IQQuestionBox,IQQuizProgressBar,Quizloader } from "
 const IQQuizPage = () => {
   const [initialLoading, setInitialLoading] = useState(true);
   const [fadeIn, setFadeIn] = useState(false);
-  const { data, error, isLoading } = useGetQuizSessionQuery();
+  const [getQuizSession] = useGetQuizSessionMutation();
   const {
     IQQuizState,
     sessionLoading,
@@ -45,6 +45,7 @@ const IQQuizPage = () => {
   };
 
   useEffect(() => {
+    getQuizSession();
     enterFullscreen();
   }, []);
 

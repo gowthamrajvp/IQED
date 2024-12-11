@@ -6,7 +6,7 @@ export default defineConfig({
   // base: "/IQED/",
   plugins: [
     react(),
-    removeConsole(), 
+    // removeConsole(), 
   ],
   server: {
     port: 5173,

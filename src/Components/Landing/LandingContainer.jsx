@@ -53,6 +53,7 @@ const LandingContainer = () => {
         {
           loading: "Creating Session...",
           success: (response) => {
+            sessionStorage.setItem("IQSessionID",response.sessionId)
             navigate(`/IQquiz/${response.sessionId}`);
             return <b>Session Created</b>;
           },

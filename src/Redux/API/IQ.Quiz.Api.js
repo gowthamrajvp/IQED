@@ -1,23 +1,14 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
-const customFetch = (input, init) => {
-  return fetch(input, { ...init, mode: "no-cors" });
-};
-
-
 export const IQQuizApi = createApi({
   reducerPath: "IQQuizApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: "https://iqedbackend.vercel.app/IQ",
-    prepareHeaders: headers,
-    credentials: 'include',
-    mode: 'cors',
+    // baseUrl: "https://iqedbackend.vercel.app/IQ",
     
-  }),
-  // headers: {
-  //   "Content-Type": "application/json",
-  //   "Access-Control-Allow-Credentials": true,
-  // },
+    baseUrl: "https://iqedbackend.vercel.app/IQ",
+    credentials: "include",
+  }
+),
   tagTypes: ["User"],
   endpoints: (builder) => ({
     createQuizSession: builder.mutation({
@@ -27,8 +18,14 @@ export const IQQuizApi = createApi({
         body: { questionCount: 35 },
       }),
     }),
-    getQuizSession: builder.query({
-      query: () => `/getSession`,
+    getQuizSession: builder.mutation({
+      query: () => ({
+        url: "/getSession",
+        method: "POST",
+        body: { 
+          sessionId:sessionStorage.getItem("IQSessionID"),
+        },
+      }),
     }),
     updateQuizSession: builder.mutation({
       query: ({ answeredQuestions, timeTaken }) => ({
@@ -38,20 +35,18 @@ export const IQQuizApi = createApi({
       }),
     }),
     uploadFile: builder.mutation({
-      query: (data) => {
-        return {
-          url: "/SendEmail",
-          method: "POST",
-          body: data,
-        };
-      },
+      query: (data) => ({
+        url: "/SendEmail",
+        method: "POST",
+        body: data,
+      }),
     }),
   }),
 });
 
 export const {
   useCreateQuizSessionMutation,
-  useGetQuizSessionQuery,
+  useGetQuizSessionMutation,
   useUpdateQuizSessionMutation,
   useUploadFileMutation,
 } = IQQuizApi;
