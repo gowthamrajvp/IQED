@@ -10,21 +10,22 @@ const FormTextField = ({ field, ...props }) => {
       value={values[field]}
       onChange={handleChange}
       error={touched[field] && Boolean(errors[field])}
-      helperText={touched[field] && errors[field] }
-      inputProps={{
-        style: {
-          padding: 5,
-          // fontSize: "13px",
+      helperText={touched[field] && errors[field]}
+      fullWidth
+      variant="outlined"
+      
+      sx={{
+        fontSize: '12px',
+        '& .MuiOutlinedInput-root': {
+          height: '40px',
+         fontWeight:'600',
+          '& input': {
+            height: '100%',
+            '&::placeholder': {
+              fontSize: '12px',
+            },
+          },
         },
-      }}
-      sx={{ 
-        "& input::placeholder": {   
-          fontSize: "13px", 
-          paddingLeft: "5px" 
-        },
-        "&& .MuiFormHelperText-root" :{
-          lineHeight:'1rem'
-        }
       }}
       {...props}
     />

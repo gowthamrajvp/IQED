@@ -1,6 +1,6 @@
 import { useCallback, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { Button, Box, Input, Typography } from "@mui/material";
+import { useNavigate } from "react-router-dom";
+import { Button, Box, Input, Typography ,Link} from "@mui/material";
 import { Formik, Form, FormikProvider } from "formik";
 import { SignInvalidSchema } from "../Schema/IQAuthSchema";
 import { FormTextField, InputDialogBox } from "../../../Common";
@@ -13,43 +13,49 @@ const IQSignInForm = ({ PageSwitch }) => {
   const [open, setOpen] = useState(false);
   const [UserLogin] = useLoginMutation();
   const navigate = useNavigate();
-  const {isLoading} = useGetUserQuery()
-  const handleFormSubmit = async (values, { setSubmitting }) => {
-    console.log(values);
-    try {
-      await toast.promise(
-        UserLogin({ email: values.email, password: values.password }), // Remove .unwrap()
-        {
-          loading: "Logging in...",
-          success: (res) => {
-            if (res.data != null  && !isLoading) {
-              navigate("/Explore"); 
-              return <b>Login successful!</b>;
-            } else {
-              throw new Error("Unexpected response status");
-            }
-          },
-          error: (error) => {
-            console.error("Login error:", error); // Log error for debugging
-            return <b>Could not login. Please try again.</b>;
-          },
-        }
-      );
-      
-    } catch (error) {
-      console.error("Error in login process:", error); // Additional error handling
-    }
+  const { isLoading } = useGetUserQuery()
 
-    setSubmitting(false); // Reset form submitting state
-  };
+  const handleFormSubmit = async (values, { setSubmitting }) => {
+  try {
+    await toast.promise(
+      UserLogin({ username: values.username, password: values.password }), // Changed 'email' to 'username'
+      {
+        loading: "Logging in...",
+        success: (res) => {
+          if (res.data != null && !isLoading) {
+            navigate("/Explore");
+            return <b>Login successful!</b>;
+          } else {
+            throw new Error("Unexpected response status");
+          }
+        },
+        error: (error) => {
+          console.error("Login error:", error); // Log error for debugging
+          return <b>Could not login. Please try again.</b>;
+        },
+      }
+    );
+  } catch (error) {
+    console.error("Error in login process:", error); // Additional error handling
+  }
+
+  setSubmitting(false); // Reset form submitting state
+};
+
 
   const initialValues = {
-    email: "",
+    username: "",  
     password: "",
   };
-
   return (
-    <Box>
+    <Box
+    // sx={{
+    //   display: 'flex',
+    //   flexDirection: 'column',
+    //   alignSelf: 'center',
+      
+    // }}
+    >
       <Typography
         component="h1"
         variant="h4"
@@ -71,8 +77,8 @@ const IQSignInForm = ({ PageSwitch }) => {
         {(formik) => (
           <FormikProvider value={formik}>
             <Form>
-              <Box display="flex" flexDirection="column" gap={1}>
-                <FormTextField field={"text"} placeholder={"User name"} />
+              <Box display="flex" flexDirection="column" gap={1} >
+              <FormTextField field={"username"} placeholder={"Username"} />
                 <FormTextField
                   field={"password"}
                   placeholder={"password"}
@@ -88,19 +94,35 @@ const IQSignInForm = ({ PageSwitch }) => {
                 >
                   <Box
                     sx={{
-                      fontSize: "12px",
+                      
                       display: "flex",
                       justifyContent: "flex-end",
                     }}
                   >
-                    <Link onClick={() => setOpen(true)}>
+                    <Link 
+                    component="button"
+                    onClick={() => setOpen(true)}
+                    variant="body2"
+                    sx={{fontSize: "12px",textDecoration: 'none' }}
+                    >
                       Forgot your password?
                     </Link>
                   </Box>
                   <Button
                     type="submit"
+                    fullWidth
                     variant="contained"
-                    color="primary"
+                    sx={{
+                      fontWeight: 'bold',
+                      backgroundColor: '#1A49BA',
+                      color: '#ffffff',
+                      '&:hover': {
+                        backgroundColor: 'Black',
+                        transition: 'transform 0.3s ease-in-out',
+                        transform: 'translateY(-5px)',
+                      },
+                      boxShadow: '2px 3px #FFDA55',
+                    }}
                     disabled={formik.isSubmitting}
                     onClick={formik.handleSubmit}
                   >

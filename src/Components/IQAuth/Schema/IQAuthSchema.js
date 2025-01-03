@@ -63,6 +63,6 @@ export const SignUpvalidSchema = [
 ];
 
 export const SignInvalidSchema = yup.object().shape({
-  email: yup.string().email().required(),
+  username: yup.string().required("Username is required"), // Adjusted field
   password: yup.string().required("Password is required"),
 });

@@ -6,20 +6,13 @@ const IQSignInBox = ({ PageSwitch }) => {
     <Box
       height="100%"
       width="100%"
-      display={"flex"}
-      flexDirection={"column"}
+      sx={{
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+      }}
     >
-      <Box
-        width={"100%"}
-        height={"100%"}
-        sx={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-      >
-        <IQSignInForm PageSwitch={PageSwitch}/>
-      </Box>
+       <IQSignInForm PageSwitch={PageSwitch}/>
     </Box>
   );
 };

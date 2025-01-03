@@ -20,8 +20,9 @@ const IQAuthContainer = () => {
         height: { xs: "80vh", md: "80vh" },
         width: { xs: "80vw", md: "70vw" },
         borderRadius: { xs: "8px", md: "16px" },
-        p: 2,
-        position:'relative'
+        p: 4,
+        position:'relative',
+        boxSizing:'border-box',
       }}
     >
       <Box sx={{position:'absolute'}}>
