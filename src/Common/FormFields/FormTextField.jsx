@@ -14,10 +14,11 @@ const FormTextField = ({ field, ...props }) => {
       inputProps={{
         style: {
           padding: 5,
+          // fontSize: "13px",
         },
       }}
       sx={{ 
-        "& input::placeholder": { 
+        "& input::placeholder": {   
           fontSize: "13px", 
           paddingLeft: "5px" 
         },

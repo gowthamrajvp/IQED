@@ -9,6 +9,7 @@ import RootLayout from "../Pages/Layout/RootLayout";
 import {
   LandingPage,
   AuthPage,
+  IQAuthPage,
   PageNotFound,
 } from "../Pages";
 import GQSuccessPage from "../Pages/IQQuizPage/GQResultPage";
@@ -21,7 +22,7 @@ export const Routers = createBrowserRouter(
   createRoutesFromElements(
 
     <Route path="/" element={<RootLayout />}>
-      <Route index element={<AuthPage />} />
+      <Route index element={<IQAuthPage />} />
       <Route element={<IQAuthLayout/>}>
         <Route path="Home" element={<LandingPage />} />
         <Route path="IQquiz" element={<Outlet />}>

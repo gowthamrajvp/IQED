@@ -19,7 +19,6 @@ const RootLayout = () => {
       "/iqquiz/result": YellowBackgroundSVG,
     };
     console.log(location.pathname.toLowerCase());
-
     const path = location.pathname.toLowerCase();
     if (path.startsWith("/iqquiz")) {
       return YellowBackgroundSVG;  
@@ -27,8 +26,6 @@ const RootLayout = () => {
     if (path.endsWith("/result")) {
       return YellowBackgroundSVG;  
     }
-
-    
     return backgroundMap[path] || WhiteBackgroundSVG;
   }, [location.pathname]);
 
