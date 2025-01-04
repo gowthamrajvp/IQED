@@ -8,14 +8,7 @@ import { useSelector } from "react-redux";
 
 const IQAuthLayout = () => {
   const location = useLocation();
-  const UserData = useSelector((state) => state.UserState);
-  const sessionid = Cookies.get('connect.sid'); // Get all cookies as an object
-  console.log(sessionid);
-  const {data:userdata} = useGetUserQuery()
-  const isQuizPath = location.pathname.startsWith("/quiz");
-  console.log(UserData);
-  // Allow access to quiz paths or require authentication for other paths
-  return isQuizPath || sessionid ? (
+  return sessionStorage.getItem("IQUser") ? (
     <Outlet />
   ) : (
     <Navigate to="/" state={{ from: location }} replace />

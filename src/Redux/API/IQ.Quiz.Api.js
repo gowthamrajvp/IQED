@@ -3,9 +3,8 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const IQQuizApi = createApi({
   reducerPath: "IQQuizApi",
   baseQuery: fetchBaseQuery({
-    // baseUrl: "https://iqedbackend.vercel.app/IQ",
-    
-    baseUrl: "https://iqed-backend1-five.vercel.app/IQ",
+    baseUrl: "http://localhost:3000/IQ",
+    // baseUrl: "https://iqed-backend1-five.vercel.app/IQ",
     credentials: "include",
   }
 ),
@@ -41,6 +40,20 @@ export const IQQuizApi = createApi({
         body: data,
       }),
     }),
+    verifyUser: builder.mutation({
+      query: (credentials) => ({
+        url: '/IQUsersVerify',
+        method: 'POST',
+        body: credentials,
+      }),
+    }),
+    updateIQ: builder.mutation({
+      query: ({ userId, iqId }) => ({
+        url: `/update-iq`,
+        method: 'POST',
+        body: {userId, iqId },
+      }),
+    }),
   }),
 });
 
@@ -49,4 +62,6 @@ export const {
   useGetQuizSessionMutation,
   useUpdateQuizSessionMutation,
   useUploadFileMutation,
+  useVerifyUserMutation,
+  useUpdateIQMutation,
 } = IQQuizApi;

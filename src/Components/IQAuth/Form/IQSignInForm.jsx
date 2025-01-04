@@ -5,13 +5,13 @@ import { Formik, Form, FormikProvider } from "formik";
 import { SignInvalidSchema } from "../Schema/IQAuthSchema";
 import { FormTextField, InputDialogBox } from "../../../Common";
 import toast from "react-hot-toast";
-import { useLoginMutation } from "../../../Redux/API/Auth.Api";
 import Cookies from "js-cookie";
 import { useGetUserQuery } from "../../../Redux/API/User.Api";
+import { useVerifyUserMutation } from "../../../Redux/API/IQ.Quiz.Api";
 
 const IQSignInForm = ({ PageSwitch }) => {
   const [open, setOpen] = useState(false);
-  const [UserLogin] = useLoginMutation();
+  const [UserLogin] = useVerifyUserMutation();
   const navigate = useNavigate();
   const { isLoading } = useGetUserQuery()
 
@@ -22,8 +22,10 @@ const IQSignInForm = ({ PageSwitch }) => {
       {
         loading: "Logging in...",
         success: (res) => {
-          if (res.data != null && !isLoading) {
-            navigate("/Explore");
+          if (res.data!= null && !isLoading) {
+            sessionStorage.setItem("IQUser",res.data.user._id)
+            console.log(res.data.user._id)
+            navigate("/Home");
             return <b>Login successful!</b>;
           } else {
             throw new Error("Unexpected response status");
@@ -31,7 +33,7 @@ const IQSignInForm = ({ PageSwitch }) => {
         },
         error: (error) => {
           console.error("Login error:", error); // Log error for debugging
-          return <b>Could not login. Please try again.</b>;
+          return <b>{error}</b>;
         },
       }
     );

@@ -66,6 +66,7 @@ const useHandleIQQuizPage = () => {
     } else {
       toast.error("Session Expire");
       sessionStorage.removeItem("IQSessionID")
+      sessionStorage.removeItem("IQUser")
     }
     navigate("/");
   };
