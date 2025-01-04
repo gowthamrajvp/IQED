@@ -30,7 +30,7 @@ export const IQQuizApi = createApi({
       query: ({ answeredQuestions, timeTaken }) => ({
         url: `/updateAnswers`,
         method: "PUT",
-        body: { answeredQuestions, timeTaken , sessionId:sessionStorage.getItem("IQSessionID")},
+        body: {IQUserId:sessionStorage.getItem("IQUser"), answeredQuestions, timeTaken , sessionId:sessionStorage.getItem("IQSessionID")},
       }),
     }),
     uploadFile: builder.mutation({
