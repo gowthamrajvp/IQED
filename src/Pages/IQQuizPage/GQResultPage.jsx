@@ -123,8 +123,8 @@ const GQSuccessPage = () => {
           {
             loading: "Send...",
             success: () => {
-              sessionStorage.removeItem("IQSessionID");
-              navigater("/");
+              sessionStorage.clear();
+              navigater("/",{ replace: true });
               return <b>Check Your Email..</b>;
             },
             error: <b>Could not Add Try again.</b>,

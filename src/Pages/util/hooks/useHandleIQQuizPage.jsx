@@ -68,7 +68,7 @@ const useHandleIQQuizPage = () => {
       sessionStorage.removeItem("IQSessionID")
       sessionStorage.removeItem("IQUser")
     }
-    navigate("/");
+    navigate("/",{ replace: true });
   };
 
   const handleSubmit = async () => {
