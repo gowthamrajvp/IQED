@@ -85,12 +85,12 @@ const useHandleIQQuizPage = () => {
         .then(() => {
           dispatch(submitQuiz());
           setResultDialog(true);
-          toast.success("session Complated");
+          toast.success("Session Completed");
           navigate(`/IQquiz/${IQQuizState._id}/result`, { replace: true });
         });
     } catch (error) {
       console.error("Failed to update quiz session:", error);
-      toast.error("sorry session not save");
+      toast.error("Sorry session not save");
     }
     // document.exitFullscreen();
   };

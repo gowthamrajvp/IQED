@@ -16,8 +16,9 @@ const FormTextField = ({ field, ...props }) => {
       
       sx={{
         fontSize: '12px',
+        
         '& .MuiOutlinedInput-root': {
-          height: '40px',
+         
          fontWeight:'600',
           '& input': {
             height: '100%',

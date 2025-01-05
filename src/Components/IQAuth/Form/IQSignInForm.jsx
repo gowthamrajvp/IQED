@@ -27,28 +27,32 @@ const IQSignInForm = ({ PageSwitch }) => {
               sessionStorage.setItem("IQUser", res.data.user._id);
               sessionStorage.setItem("IQUseremail", res.data.user.email);
               sessionStorage.setItem("IQUserusername", res.data.user.name);
-
+  
               console.log(res.data.user._id);
               navigate("/Home");
-              return <b>Login successful!</b>;
+              return "Login successful!";
             } else if (res?.error?.status === 400) {
-              return <b>You already completed.</b>;
+              toast.error("You already completed.");
+              return "Checking your credentials"; 
             } else {
-              return <b>Check Your credentials</b>;
+              toast.error("Incorrect username or password");
+              return "Checking your credentials"; 
             }
           },
           error: (error) => {
             console.error("Login error:", error?.response || error.message || error);
-            return <b>Login failed! Please check your credentials and try again.</b>;
+            return "Login failed! Please check your credentials and try again.";
           },
         }
       );
     } catch (error) {
       console.error("Error in login process:", error); // Additional error handling
+      toast.error("An unexpected error occurred. Please try again.");
     } finally {
       setSubmitting(false); // Reset form submitting state
     }
   };
+  
   
 
 
@@ -90,7 +94,7 @@ const IQSignInForm = ({ PageSwitch }) => {
               <FormTextField field={"username"} placeholder={"Username"} />
                 <FormTextField
                   field={"password"}
-                  placeholder={"password"}
+                  placeholder={"Password"}
                   type={"password"}
                 />
 
@@ -108,14 +112,14 @@ const IQSignInForm = ({ PageSwitch }) => {
                       justifyContent: "flex-end",
                     }}
                   >
-                    <Link 
+                    {/* <Link 
                     component="button"
                     onClick={() => setOpen(true)}
                     variant="body2"
                     sx={{fontSize: "12px",textDecoration: 'none' }}
                     >
                       Forgot your password?
-                    </Link>
+                    </Link> */}
                   </Box>
                   <Button
                     type="submit"

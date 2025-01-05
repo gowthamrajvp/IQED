@@ -1,9 +1,10 @@
 import { useState } from "react";
 import { Box, Paper, Stack } from "@mui/material";
-import CarouselBox from "./SubComponets/CarouselBox";
+
 
 import { Logo } from "../../Common";
 import IQSignInBox from "../IQAuth/SubComponets/IQSignInBox";
+import CarouselBox from "./SubComponets/CarouselBox";
 
 const IQAuthContainer = () => {
   const [isLoginPage, setisLoginPage] = useState(true);

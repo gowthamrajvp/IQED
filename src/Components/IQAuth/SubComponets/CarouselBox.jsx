@@ -1,8 +1,7 @@
 import Slider from "react-slick";
 import { Box } from "@mui/material";
 import {CarouselCard} from "../../../Common";
-import { YellowDesignSVG } from "../../../assets/SVG";
-
+import { YellowDesignSVG } from "../../../assets";
 const CarouselBox = () => {
   const settings = {
     dots: false,
@@ -20,9 +19,9 @@ const CarouselBox = () => {
       width="50%"
       id="YellowDesignSVG"
       sx={{
-        backgroundImage: `url(${YellowDesignSVG})`,
+        backgroundImage: `url('https://firebasestorage.googleapis.com/v0/b/eshikhay-database.appspot.com/o/background%2FYellowDesign.svg?alt=media&token=d514c50d-8a55-417f-9907-d86565e3d53b')`,
         backgroundSize: "cover",
-        borderRadius: "8px",
+        borderRadius: "10px",
         display: { xs: "none", md: "flex" },
         alignItems: "center",
         justifyContent: "center",
