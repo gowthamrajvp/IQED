@@ -34,11 +34,18 @@ export const IQQuizApi = createApi({
       }),
     }),
     uploadFile: builder.mutation({
-      query: (data) => ({
-        url: "/SendEmail",
-        method: "POST",
-        body: data,
-      }),
+      query: ({ blob, email, name, filename, sessionId }) => {
+        const formData = new FormData();
+        formData.append('file', blob, filename); // Add the file
+        formData.append('email', email);        // Add email
+        formData.append('name', name);          // Add name
+        formData.append('sessionId', sessionId); // Add session ID
+        return {
+          url: '/SendEmail',
+          method: 'POST',
+          body: formData, // Send the FormData object
+        };
+      },
     }),
     verifyUser: builder.mutation({
       query: (credentials) => ({

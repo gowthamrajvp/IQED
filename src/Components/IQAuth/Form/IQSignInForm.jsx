@@ -25,6 +25,9 @@ const IQSignInForm = ({ PageSwitch }) => {
           success: (res) => {
             if (res?.data && !isLoading) {
               sessionStorage.setItem("IQUser", res.data.user._id);
+              sessionStorage.setItem("IQUseremail", res.data.user.email);
+              sessionStorage.setItem("IQUserusername", res.data.user.username);
+
               console.log(res.data.user._id);
               navigate("/Home");
               return <b>Login successful!</b>;
