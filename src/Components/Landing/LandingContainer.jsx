@@ -41,7 +41,7 @@ const LandingContainer = () => {
   const listItems = [
     "This test consists of 35 questions, designed to assess various cognitive skills.",
     "The assessment covers logical reasoning, verbal comprehension, working memory, and spatial reasoning.",
-    "All questions are tailored to be age-appropriate, with specific difficulty levels for children, adolescents, and adults.",
+    
     "Each correct answer scores one point, contributing to your overall cognitive score.",
     "The test duration is approximately 25 minutes.",
   ];
