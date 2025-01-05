@@ -15,15 +15,14 @@ const FormTextField = ({ field, ...props }) => {
       variant="outlined"
       
       sx={{
-        fontSize: '12px',
-        
-        '& .MuiOutlinedInput-root': {
-         
-         fontWeight:'600',
-          '& input': {
-            height: '100%',
-            '&::placeholder': {
-              fontSize: '12px',
+        "& .MuiOutlinedInput-root": {
+          height: "40px", 
+          fontWeight: "600",
+          "& input": {
+            height: "40", 
+            padding: "8px", 
+            "&::placeholder": {
+              fontSize: "12px",
             },
           },
         },
