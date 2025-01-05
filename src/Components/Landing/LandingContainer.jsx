@@ -49,7 +49,7 @@ const LandingContainer = () => {
     try {
       dispatch(resetQuiz());
       toast.promise(
-        CreateQuizSession().unwrap(),
+        CreateQuizSession({Age:selectedAgeGroup}).unwrap(),
         {
           loading: "Creating Session...",
           success: (response) => {
