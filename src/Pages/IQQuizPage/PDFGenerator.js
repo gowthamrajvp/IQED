@@ -1,6 +1,6 @@
 import { PDFDocument, rgb } from "pdf-lib";
 // import data from "./1111jason.json";
-import { IQTestResultTem1, Poppins_Bold} from "../../assets";
+import { IQTestResultTem1, Poppins_Bold } from "../../assets";
 import * as fontkit from "fontkit";
 
 
@@ -32,18 +32,18 @@ const feedbackThresholds = [
 ];
 
 const iqCategories = [
-  { minIQ: 130, category: "Very High - (Gifted)", description: `Individuals who score in this range often excel\nin academic and problem-solving tasks.` },
-  { minIQ: 120, category: "High Average", description: `Above average intelligence,\noften seen in successful professionals.` },
-  { minIQ: 110, category: "Average - High", description: `Generally capable of handling complex tasks and reasoning.` },
-  { minIQ: 90, category: "Average", description: `Represents the majority of the population,\ncompetent in daily tasks.` },
-  { minIQ: 80, category: "Below Average", description: `May face challenges with more\ncomplex reasoning and problem-solving tasks.` },
-  { minIQ: 70, category: "Low Average", description: `Individuals in this range might require\nassistance in academic settings.` },
-  { minIQ: -Infinity, category: "Very Low", description: `Significantly below average;\nmay qualify for special education services.` },
+  { minIQ: 130, category: "Very High - (Gifted)", description: `With great power comes great responsibility.\nUse your gifts to make the world a better place.` },
+  { minIQ: 120, category: "High Average", description: `Success is not about ability, but consistency.\nStay dedicated, and you'll surpass every expectation.` },
+  { minIQ: 110, category: "Average - High", description: `Your potential lies in your determination.\nKeep challenging yourself to reach new heights.` },
+  { minIQ: 90, category: "Average", description: `Every step forward counts, no matter\nhow small. Progress is progress—keep going!` },
+  { minIQ: 80, category: "Below Average", description: `The only limits you have are the ones you set for yourself.\nBelieve in your ability to grow and thrive.` },
+  { minIQ: 70, category: "Low Average", description: `Effort and perseverance are the keys to unlocking potential.\nEvery challenge you face makes you stronger.` },
+  { minIQ: -Infinity, category: "Very Low", description: `The journey of a thousand miles begins with a single step.\nTake that step today and celebrate your progress.` },
 ];
 
 // Calculate scores and results
 function calculateScores(data) {
-  console.log("data",data)
+  console.log("data", data)
   if (!data || !data.answeredQuestions || !data.questionsList) {
     throw new Error("Invalid data. Please check the imported JSON file.");
   }
@@ -100,7 +100,7 @@ function calculateScores(data) {
   const zScore = (userIQ - mean) / stdDev;
   const per = 0.5 + (0.5 * erf(zScore / Math.sqrt(2)));
   const percentile = (per * 100).toFixed(2);
- 
+
 
   const iqCategory = iqCategories.find((c) => userIQ >= c.minIQ);
 
@@ -118,8 +118,58 @@ function calculateScores(data) {
   };
 }
 
+// QuickChart API function for generating a chart image
+async function generateChartImageQuickChart(data) {
+  const chartConfig = {
+    type: 'bar',
+    data: {
+      labels: ['Logical Reasoning', 'Verbal Comprehension', 'Working Memory', 'Spatial Reasoning'],
+      datasets: [{
+        label: 'IQ Topic Scores',
+        // data: [data.scores['Logical Reasoning'], data.scores['Verbal Comprehension'], data.scores['Working Memory'], data.scores['Spatial Reasoning']],
+        data: [50, 20, 80, 60],
+        backgroundColor: 'rgb(255, 255, 255)',
+      }],
+    },
+    options: {
+      responsive: false,
+      plugins: {
+        legend: { display: false, },
+      },
+      scales: {
+        yAxes: [
+          {
+            ticks: {
+              beginAtZero: true,
+              suggestedMax: 100,
+              color: 'green',
+            },
+          },
+        ],
+        xAxes: [{
+          ticks: {
+            color: 'green',
+          },
+        }],
+      },
+
+    },
+  };
+  const chartWidth = 570;
+  const chartHeight = 200;
+  const chartUrl = `https://quickchart.io/chart?c=${encodeURIComponent(JSON.stringify(chartConfig))}&width=${chartWidth}&height=${chartHeight}`;
+
+  // Fetch the image from QuickChart API
+  const response = await fetch(chartUrl);
+  const imageArrayBuffer = await response.arrayBuffer(); // Use arrayBuffer instead of buffer in the browser
+  const barImageBuffer = new Uint8Array(imageArrayBuffer); // Convert to Uint8Array
+
+  return barImageBuffer;
+}
+
+
 // PDF generation function
-async function generatePdf(name, reportData,imageData) {
+async function generatePdf(name, reportData, imageData, barImageBuffer) {
   if (!reportData || !reportData.scores || !reportData.percentages || !reportData.feedback || !reportData.totalQuestions) {
     console.error("Missing expected report data:", reportData);
     throw new Error("Incomplete report data.");
@@ -182,17 +232,15 @@ async function generatePdf(name, reportData,imageData) {
 
   //Words under the Chart
   const iqQuote = `"${reportData.iqCategory.description}"`;
-  const iqQuoteWidth = customFont.widthOfTextAtSize(iqQuote, 18);
-  const iqQuoteTextX = (width - iqQuoteWidth) / 2;
   const iqQuoteTextY = 150;
-  const lines = iqQuote.split('\n'); 
+  const lines = iqQuote.split('\n');
   lines.forEach((line, index) => {
-    const lineWidth = customFont.widthOfTextAtSize(line, 18); 
-    const lineX = (width - lineWidth) / 2; 
+    const lineWidth = customFont.widthOfTextAtSize(line, 15);
+    const lineX = (width - lineWidth) / 2;
     page.drawText(line, {
-      x: lineX, 
-      y: iqQuoteTextY - index * 20, 
-      size: 18,
+      x: lineX,
+      y: iqQuoteTextY - index * 20,
+      size: 15,
       color: rgb(1, 1, 1),
       font: customFont,
     });
@@ -205,12 +253,12 @@ async function generatePdf(name, reportData,imageData) {
   const iqTotalTextX = (width - iqTotalTextWidth) / 2;
 
   page.drawText(iqTotal, {
-    x: iqTotalTextX, 
-    y: 70, 
-    size: 20, 
-    color: rgb(0, 0, 0), 
+    x: iqTotalTextX,
+    y: 70,
+    size: 20,
+    color: rgb(0, 0, 0),
     font: customFont,
-    align: 'center', 
+    align: 'center',
   });
 
   //Words for Score under
@@ -233,68 +281,116 @@ async function generatePdf(name, reportData,imageData) {
   const SecondRow = reportData.feedback['Verbal Comprehension']
   const ThirdRow = reportData.feedback['Working Memory']
   const FourthRow = reportData.feedback['Spatial Reasoning']
-
+  const PercentileFeedbackx = 350
   page1.drawText(FirstRow, {
-    x: 375,
-    y: 690,
+    x: PercentileFeedbackx,
+    y: 685,
     size: 12,
-    color: rgb(0, 0, 0),
+    color: rgb(1, 1, 1),
+    font: customFont,
   })
 
   page1.drawText(SecondRow, {
-    x: 375,
+    x: PercentileFeedbackx,
     y: 640,
     size: 12,
-    color: rgb(0, 0, 0),
+    color: rgb(1, 1, 1),
+    font: customFont,
   })
 
   page1.drawText(ThirdRow, {
-    x: 375,
-    y: 590,
+    x: PercentileFeedbackx,
+    y: 592,
     size: 12,
-    color: rgb(0, 0, 0),
+    color: rgb(1, 1, 1),
+    font: customFont,
   })
 
   page1.drawText(FourthRow, {
-    x: 375,
-    y: 540,
+    x: PercentileFeedbackx,
+    y: 545,
     size: 12,
-    color: rgb(0, 0, 0),
+    color: rgb(1, 1, 1),
+    font: customFont,
   })
 
-  const FirstRowPercentage = `${reportData.percentages['Logical Reasoning']}`
-  const SecondRowPercentage = `${reportData.percentages['Verbal Comprehension']}`
-  const ThirdRowPercentage = `${reportData.percentages['Working Memory']}`
-  const FourthRowPercentage = `${reportData.percentages['Spatial Reasoning']}`
+  const FirstRowPercentage = `${reportData.percentages['Logical Reasoning']}%`
+  const SecondRowPercentage = `${reportData.percentages['Verbal Comprehension']}%`
+  const ThirdRowPercentage = `${reportData.percentages['Working Memory']}%`
+  const FourthRowPercentage = `${reportData.percentages['Spatial Reasoning']}%`
 
   page1.drawText(FirstRowPercentage, {
     x: 520,
-    y: 690,
+    y: 685,
     size: 12,
-    color: rgb(0, 0, 0),
+    color: rgb(1, 1, 1),
+    font: customFont,
   })
 
   page1.drawText(SecondRowPercentage, {
     x: 520,
     y: 640,
     size: 12,
-    color: rgb(0, 0, 0),
+    color: rgb(1, 1, 1),
+    font: customFont,
   })
 
   page1.drawText(ThirdRowPercentage, {
     x: 520,
     y: 590,
     size: 12,
-    color: rgb(0, 0, 0),
+    color: rgb(1, 1, 1),
+    font: customFont,
   })
 
   page1.drawText(FourthRowPercentage, {
     x: 520,
-    y: 540,
+    y: 545,
     size: 12,
-    color: rgb(0, 0, 0),
+    color: rgb(1, 1, 1),
+    font: customFont,
   })
-  // Save the PDF document
+
+  //bar chart based on the topic scores 
+  const barchartImageData = await pdfDoc.embedPng(barImageBuffer);
+  const barchartWidth = 570;
+  const barchartHeight = 200;
+  const barchartX = (width - barchartWidth) / 2;
+  const barchartY = (height - barchartHeight) / 2 - 10;
+
+  page1.drawImage(barchartImageData, {
+    x: barchartX,
+    y: barchartY,
+    width: barchartWidth,
+    height: barchartHeight,
+  });
+
+  const strengthsSentence = `"Your ${reportData.scores['Logical Reasoning'] >= reportData.scores['Spatial Reasoning'] ? 'Logical Reasoning' : 'Spatial Reasoning'} skills are particularly strong, \nshowcasing excellent problem-solving ability and spatial visualization."`;
+
+  const improvementsSentence = `"Your ${reportData.scores['Working Memory'] < reportData.scores['Verbal Comprehension'] ? 'Working Memory' : 'Verbal Comprehension'} shows potential for improvement, \nand could benefit from focused exercises to enhance performance."`;
+
+
+  // Draw Strengths and Improvement Areas text
+  const strengthsY = 230;
+  const improvementAreasY = 140;
+
+  page1.drawText(strengthsSentence, {
+    x: 70,
+    y: strengthsY - 20,
+    size: 12,
+    color: rgb(1, 1, 1),
+    font: customFont,
+  });
+
+  page1.drawText(improvementsSentence, {
+    x: 70,
+    y: improvementAreasY - 20,
+    size: 12,
+    color: rgb(1, 1, 1),
+    font: customFont,
+  });
+
+
   const pdfBytes = await pdfDoc.save();
   const pdfBlob = new Blob([pdfBytes], { type: "application/pdf" });
 
@@ -304,9 +400,10 @@ async function generatePdf(name, reportData,imageData) {
 
 
 // Main function
-export const generateIqReport = async (name,data,imageData) => {
-  console.log("data",data)
+export const generateIqReport = async (name, data, imageData) => {
+  console.log("data", data)
   const reportData = calculateScores(data);
-  const pdfBlob = await generatePdf(name,reportData,imageData);
+  const barImageBuffer = await generateChartImageQuickChart(reportData);
+  const pdfBlob = await generatePdf(name, reportData, imageData, barImageBuffer);
   return pdfBlob;
 };
