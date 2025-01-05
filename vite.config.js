@@ -4,9 +4,9 @@ import removeConsole from 'vite-plugin-remove-console';
 
 export default defineConfig({
   // base: "/IQED/",
-  build: {
-    outDir: 'dist',
-  },
+  // build: {
+  //   outDir: 'dist',
+  // },
   plugins: [
     react(),
     removeConsole({
@@ -18,6 +18,5 @@ export default defineConfig({
   ],
   server: {
     port: 5173,
-    historyApiFallback: true,
   },
 });

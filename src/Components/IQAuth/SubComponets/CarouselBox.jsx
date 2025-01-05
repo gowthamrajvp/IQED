@@ -18,6 +18,7 @@ const CarouselBox = () => {
     <Box
       height="100%"
       width="50%"
+      id="YellowDesignSVG"
       sx={{
         backgroundImage: `url(${YellowDesignSVG})`,
         backgroundSize: "cover",

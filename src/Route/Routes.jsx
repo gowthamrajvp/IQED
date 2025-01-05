@@ -32,9 +32,8 @@ export const Routers = createBrowserRouter(
           </Route>
         </Route>
       </Route>
-      <Route path="*" element={<PageNotFound />} />
+      <Route path="*" element={<PageNotFound />}/>
     </Route>
-
   )
   // ,
   // { basename }
