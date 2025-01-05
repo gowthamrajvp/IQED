@@ -11,10 +11,10 @@ export const IQQuizApi = createApi({
   tagTypes: ["User"],
   endpoints: (builder) => ({
     createQuizSession: builder.mutation({
-      query: () => ({
+      query: ({Age}) => ({
         url: "/createSession",
         method: "POST",
-        body: { questionCount: 35 },
+        body: { questionCount: 35,Age },
       }),
     }),
     getQuizSession: builder.mutation({
