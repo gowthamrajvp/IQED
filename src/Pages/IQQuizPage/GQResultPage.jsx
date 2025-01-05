@@ -73,7 +73,7 @@ const GQSuccessPage = () => {
     setImageData(data);
     console.log("imageData:", imageData);
   };
-  console.log("QuizState.IQScore", IQQuizState.IQscore);
+  console.log("QuizState.IQScore", IQQuizState);
   console.log("QuizState.score", IQQuizState.score);
 
   const textFieldStyles = {
@@ -116,7 +116,7 @@ const GQSuccessPage = () => {
         //   }
         // );
     try {
-      const pdfBlob = await generateIqReport(name,imageData);
+      const pdfBlob = await generateIqReport(name,IQQuizState,imageData);
 
       if (pdfBlob) {
         const downloadLink = document.createElement("a");

@@ -32,17 +32,18 @@ const feedbackThresholds = [
 ];
 
 const iqCategories = [
-  { minIQ: 130, category: "Very High - (Gifted)", description: `Individuals who score in this range often excel /n in academic and problem-solving tasks.` },
-  { minIQ: 120, category: "High Average", description: "Above average intelligence, often seen in successful professionals." },
-  { minIQ: 110, category: "Average - High", description: "Generally capable of handling complex tasks and reasoning." },
-  { minIQ: 90, category: "Average", description: "Represents the majority of the population, competent in daily tasks." },
-  { minIQ: 80, category: "Below Average", description: `May face challenges with more \n complex reasoning and problem-solving tasks.` },
-  { minIQ: 70, category: "Low Average", description: "Individuals in this range might require assistance in academic settings." },
-  { minIQ: -Infinity, category: "Very Low", description: "Significantly below average; may qualify for special education services." },
+  { minIQ: 130, category: "Very High - (Gifted)", description: `Individuals who score in this range often excel\nin academic and problem-solving tasks.` },
+  { minIQ: 120, category: "High Average", description: `Above average intelligence,\noften seen in successful professionals.` },
+  { minIQ: 110, category: "Average - High", description: `Generally capable of handling complex tasks and reasoning.` },
+  { minIQ: 90, category: "Average", description: `Represents the majority of the population,\ncompetent in daily tasks.` },
+  { minIQ: 80, category: "Below Average", description: `May face challenges with more\ncomplex reasoning and problem-solving tasks.` },
+  { minIQ: 70, category: "Low Average", description: `Individuals in this range might require\nassistance in academic settings.` },
+  { minIQ: -Infinity, category: "Very Low", description: `Significantly below average;\nmay qualify for special education services.` },
 ];
 
 // Calculate scores and results
 function calculateScores(data) {
+  console.log("data",data)
   if (!data || !data.answeredQuestions || !data.questionsList) {
     throw new Error("Invalid data. Please check the imported JSON file.");
   }
@@ -97,8 +98,9 @@ function calculateScores(data) {
   const mean = 100;
   const stdDev = 15;
   const zScore = (userIQ - mean) / stdDev;
-  const percentile = 0.5 + (0.5 * erf(zScore / Math.sqrt(2)));
-  const percentageAbove = ((1 - percentile) * 100).toFixed(2);
+  const per = 0.5 + (0.5 * erf(zScore / Math.sqrt(2)));
+  const percentile = (per * 100).toFixed(2);
+ 
 
   const iqCategory = iqCategories.find((c) => userIQ >= c.minIQ);
 
@@ -110,14 +112,14 @@ function calculateScores(data) {
     totalPossible,
     totalPercentage,
     userIQ,
-    percentageAbove,
+    percentile,
     iqCategory,
     totalQuestions,
   };
 }
 
 // PDF generation function
-async function generatePdf(data, reportData) {
+async function generatePdf(name, reportData,imageData) {
   if (!reportData || !reportData.scores || !reportData.percentages || !reportData.feedback || !reportData.totalQuestions) {
     console.error("Missing expected report data:", reportData);
     throw new Error("Incomplete report data.");
@@ -137,7 +139,7 @@ async function generatePdf(data, reportData) {
 
 
   // Main header text
-  const text = `Hello, ${data.name}!`;
+  const text = `Hello, ${name}!`;
   const textWidth = customFont.widthOfTextAtSize(text, 24);
   const x = (width - textWidth) / 2;
   const y = 550;
@@ -164,7 +166,7 @@ async function generatePdf(data, reportData) {
   });
 
   // Embed the chart image
-  const chartImageBytes = await fetch(image).then((res) => res.arrayBuffer());
+  const chartImageBytes = await fetch(imageData).then((res) => res.arrayBuffer());
   const chartImageData = await pdfDoc.embedPng(chartImageBytes);
   const chartWidth = 500;
   const chartHeight = 280;
@@ -212,7 +214,7 @@ async function generatePdf(data, reportData) {
   });
 
   //Words for Score under
-  const iqWords = `Your IQ is higher than ${reportData.percentageAbove}% of the general population.`;
+  const iqWords = `Your IQ is higher than ${reportData.percentile}% of the general population.`;
   const iqWordsTextWidth = customFont.widthOfTextAtSize(iqWords, 12);
   const iqWordsTextX = (width - iqWordsTextWidth) / 2;
 
@@ -302,8 +304,9 @@ async function generatePdf(data, reportData) {
 
 
 // Main function
-export const generateIqReport = async ({data,imageData}) => {
+export const generateIqReport = async (name,data,imageData) => {
+  console.log("data",data)
   const reportData = calculateScores(data);
-  const pdfBlob = await generatePdf(data,reportData,imageData);
+  const pdfBlob = await generatePdf(name,reportData,imageData);
   return pdfBlob;
 };
