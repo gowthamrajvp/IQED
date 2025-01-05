@@ -8,6 +8,7 @@ import toast from "react-hot-toast";
 import Cookies from "js-cookie";
 import { useGetUserQuery } from "../../../Redux/API/User.Api";
 import { useVerifyUserMutation } from "../../../Redux/API/IQ.Quiz.Api";
+import { error } from "pdf-lib";
 
 const IQSignInForm = ({ PageSwitch }) => {
   const [open, setOpen] = useState(false);
@@ -16,33 +17,36 @@ const IQSignInForm = ({ PageSwitch }) => {
   const { isLoading } = useGetUserQuery()
 
   const handleFormSubmit = async (values, { setSubmitting }) => {
-  try {
-    await toast.promise(
-      UserLogin({ username: values.username, password: values.password }), // Changed 'email' to 'username'
-      {
-        loading: "Logging in...",
-        success: (res) => {
-          if (res.data!= null && !isLoading) {
-            sessionStorage.setItem("IQUser",res.data.user._id)
-            console.log(res.data.user._id)
-            navigate("/Home");
-            return <b>Login successful!</b>;
-          } else {
-            throw new Error("Unexpected response status");
-          }
-        },
-        error: (error) => {
-          console.error("Login error:", error); // Log error for debugging
-          return <b>{error}</b>;
-        },
-      }
-    );
-  } catch (error) {
-    console.error("Error in login process:", error); // Additional error handling
-  }
-
-  setSubmitting(false); // Reset form submitting state
-};
+    try {
+      await toast.promise(
+        UserLogin({ username: values.username, password: values.password }),
+        {
+          loading: "Logging in...",
+          success: (res) => {
+            if (res?.data && !isLoading) {
+              sessionStorage.setItem("IQUser", res.data.user._id);
+              console.log(res.data.user._id);
+              navigate("/Home");
+              return <b>Login successful!</b>;
+            } else if (res?.error?.status === 400) {
+              return <b>You already completed.</b>;
+            } else {
+              return <b>Check Your credentials</b>;
+            }
+          },
+          error: (error) => {
+            console.error("Login error:", error?.response || error.message || error);
+            return <b>Login failed! Please check your credentials and try again.</b>;
+          },
+        }
+      );
+    } catch (error) {
+      console.error("Error in login process:", error); // Additional error handling
+    } finally {
+      setSubmitting(false); // Reset form submitting state
+    }
+  };
+  
 
 
   const initialValues = {
