@@ -61,9 +61,9 @@ const GQSuccessPage = () => {
   const theme = useTheme();
   const isSm = useMediaQuery(theme.breakpoints.down("sm"));
 
-  const [name, setName] = useState("");
+  const [name, setName] = useState(sessionStorage.getItem("IQUserusername"));
+  const [contact, setContact] = useState(sessionStorage.getItem("IQUseremail"));
 
-  const [contact, setContact] = useState("");
   const [error, setError] = useState(false);
   const [imageData, setImageData] = useState(null);
   const [UploadFileMutation] = useUploadFileMutation();
@@ -98,42 +98,47 @@ const GQSuccessPage = () => {
   //     const chartImage = canvasRef.current.toDataURL("image/png");
   const sendmail = async (name, score) => {
     // console.log(contact, name, IQQuizState.IQscore);
-        // toast.promise(
-        //   UploadFileMutation({
-        //     file: imageData,
-        //     email: contact,
-        //     name: name,
-        //     sessionId: sessionStorage.getItem("IQSessionID"),
-        //   }),
-        //   {
-        //     loading: "Send...",
-        //     success: () => {
-        //       sessionStorage.removeItem("IQSessionID");
-        //       navigater("/");
-        //       return <b>Check Your Email..</b>;
-        //     },
-        //     error: <b>Could not Add Try again.</b>,
-        //   }
-        // );
-    try {
-      const pdfBlob = await generateIqReport(name,IQQuizState,imageData);
 
+      const pdfBlob = await generateIqReport(name,IQQuizState,imageData);
+      console.log(pdfBlob)
       if (pdfBlob) {
-        const downloadLink = document.createElement("a");
-        const pdfUrl = URL.createObjectURL(pdfBlob);
-        downloadLink.href = pdfUrl;
-        downloadLink.download = `${name}_IQ_Report.pdf`;
+        // const downloadLink = document.createElement("a");
+        // const pdfUrl = URL.createObjectURL(pdfBlob);
+        // downloadLink.href = pdfUrl;
+        // downloadLink.download = `${name}_IQ_Report.pdf`;
   
-        // Programmatically trigger the download
-        downloadLink.click();
+        // // Programmatically trigger the download
+        // downloadLink.click();
   
-        // Optionally, revoke the object URL after the download to free up memory
-        URL.revokeObjectURL(pdfUrl);
-  
-        console.log("PDF generated and saved successfully.");
-      } else {
-        console.error("Failed to generate the PDF.");
+        // // Optionally, revoke the object URL after the download to free up memory
+        // URL.revokeObjectURL(pdfUrl);
+        toast.promise(
+          UploadFileMutation({
+            blob: pdfBlob,
+            email: contact,
+            name: name,
+            filename:`${name}_IQ_Report.pdf`,
+            sessionId: sessionStorage.getItem("IQSessionID"),
+          }),
+          {
+            loading: "Send...",
+            success: () => {
+              sessionStorage.removeItem("IQSessionID");
+              navigater("/");
+              return <b>Check Your Email..</b>;
+            },
+            error: <b>Could not Add Try again.</b>,
+          }
+        );
+      }else {
+            console.error("Failed to generate the PDF.");
       }
+    // try {
+  
+    //     console.log("PDF generated and saved successfully.");
+    //   } else {
+    //     console.error("Failed to generate the PDF.");
+    //   }
 
       // if (imageData) {
       //   const imageDownloadLink = document.createElement("a");
@@ -148,9 +153,9 @@ const GQSuccessPage = () => {
       // }
 
 
-    } catch (error) {
-      console.error("Error generating PDF:", error);
-    }
+    // } catch (error) {
+    //   console.error("Error generating PDF:", error);
+    // }
 
     
   };
