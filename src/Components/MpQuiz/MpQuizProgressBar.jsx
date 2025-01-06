@@ -5,7 +5,7 @@ import {
   KeyboardDoubleArrowLeft,
 } from "@mui/icons-material";
 
-const MpQuizProgressBar = ({
+const mpQuizProgressBar = ({
   currentQuestion = 0,
   totalQuestions = 0,
   progressValue = 0,
@@ -66,4 +66,4 @@ const MpQuizProgressBar = ({
   );
 };
 
-export default MpQuizProgressBar;
+export default mpQuizProgressBar;

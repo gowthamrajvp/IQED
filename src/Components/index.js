@@ -15,15 +15,17 @@ export {default as Shipping} from '../Pages/Store/ShippingPage.jsx';
 export {default as VSCard} from '../Common/Cards/VSCard.jsx';
 export {default as Quizloader} from './Quiz/Quizloader.jsx';
 
-export { default as QuestionBox } from "./Quiz/QuestionBox.jsx";
-export { default as QuizProgressBar } from "./Quiz/QuizProgressBar.jsx";
-export { default as QuestionDrawerList } from "./Quiz/QuestionDrawerList .jsx";
+// export { default as QuestionBox } from "./Quiz/QuestionBox.jsx";
+// export { default as QuizProgressBar } from "./Quiz/QuizProgressBar.jsx";
+// export { default as QuestionDrawerList } from "./Quiz/QuestionDrawerList .jsx";
 
 export { default as IQQuestionBox } from "./IQQuiz/IQQuestionBox.jsx";
 export { default as IQQuizProgressBar } from "./IQQuiz/IQQuizProgressBar.jsx";
 export { default as IQQuestionDrawerList } from "./IQQuiz/IQQuestionDrawerList .jsx";
-
-export { default as MPQuestionBox } from "./MpQuiz/MPQuestionBox.jsx";
-export { default as MPQuizProgressBar } from "./MPQuiz/MPQuizProgressBar.jsx";
-export { default as MPQuestionDrawerList } from "./MPQuiz/MPQuestionDrawerList.jsx";
 export {default as BellCurveChart} from "./Landing/BellCurveChart.jsx";
+
+
+// export { default as MPQuestionBox } from "./MpQuiz/MPQuestionBox.jsx";
+// export { default as MPQuizProgressBar } from "./MpQuiz/mpQuizProgressBar.jsx";
+// export { default as MPQuestionDrawerList } from "./MPQuiz/MPQuestionDrawerList.jsx";
+
