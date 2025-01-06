@@ -83,8 +83,7 @@ const LandingPage = () => {
               },
             }}
           >
-             The <b>IQED Challenge Platform</b> is launching tomorrow
-             Be prepared to embark on an incredible journey of challenges, learning, and growth.
+             The <b>IQED Challenge Platform</b> is launching tomorrow. Be prepared to embark on an incredible journey of challenges, learning, and growth.
           </Typography>
           <Stack
             direction="row"
