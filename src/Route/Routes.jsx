@@ -3,6 +3,7 @@ import {
   createRoutesFromElements,
   Outlet,
   Route,
+  Navigate,
 } from "react-router-dom";
 
 import RootLayout from "../Pages/Layout/RootLayout";
@@ -16,14 +17,17 @@ import GQSuccessPage from "../Pages/IQQuizPage/GQResultPage";
 import IQQuizLayout from "../Pages/Layout/IQQuizLayout";
 import IQQuizPage from "../Pages/IQQuizPage/IQQuizPage";
 import IQAuthLayout from "../Pages/Layout/IQAuthLayout";
+import Launch from "../Pages/Launch/Launch";
 
 const basename = import.meta.env.BASE_URL;
 export const Routers = createBrowserRouter(
   createRoutesFromElements(
 
     <Route path="/" element={<RootLayout />}>
-      <Route index element={<IQAuthPage />} />
-      <Route element={<IQAuthLayout/>}>
+      <Route index element={<Launch />} />
+      <Route path="*" element={<Navigate to="/" replace />} />
+      {/* <Route index element={<IQAuthPage />} />
+      <Route element={<IQAuthLayout/>}> 
         <Route path="Home" element={<LandingPage />} />
         <Route path="IQquiz" element={<Outlet />}>
           <Route path=":sessionId" element={<IQQuizLayout />}>
@@ -32,7 +36,7 @@ export const Routers = createBrowserRouter(
           </Route>
         </Route>
       </Route>
-      <Route path="*" element={<PageNotFound />}/>
+      <Route path="*" element={<PageNotFound />}/> */}
     </Route>
   )
   // ,

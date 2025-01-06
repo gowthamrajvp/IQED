@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { replace, useNavigate } from "react-router-dom";
 
 // MUI
 import {
@@ -25,27 +25,49 @@ import {
 import { feedback, warning } from "../../assets";
 
 const IQQuizPage = () => {
+
+  const navigate = useNavigate();
+  useEffect(()=>{
+    if(!sessionStorage.getItem("IQSessionID")){
+      navigate("/",{ replace: true })
+    }
+  })
   const [initialLoading, setInitialLoading] = useState(true);
   const [fadeIn, setFadeIn] = useState(false);
   const [getQuizSession] = useGetQuizSessionMutation();
-  const navigate = useNavigate();
+ 
 
   // State for tab-switching warning and modal
   const [tabSwitchCount, setTabSwitchCount] = useState(0);
   const [openModal, setOpenModal] = useState(false);
+  const [openRefreshModal, setOpenRefreshModal] = useState(false);
   const [warningMessage, setWarningMessage] = useState("");
 
+  
+
+
   useEffect(() => {
-    const unloadCallback = (event) => {
+    const handleBeforeUnload = (event) => {
+     
       event.preventDefault();
-      event.returnValue = "";
-      return "";
+      event.returnValue = ""; 
+
+      sessionStorage.clear();
+
+     
+      alert("Your session has been cleared!");
     };
 
-    window.addEventListener("beforeunload", unloadCallback);
+    window.addEventListener("beforeunload", handleBeforeUnload);
 
-    return () => window.removeEventListener("beforeunload", unloadCallback);
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+    };
   }, []);
+
+
+  
+
 
   const {
     IQQuizState,
@@ -113,6 +135,15 @@ const IQQuizPage = () => {
     }
   };
 
+  const handleRefreshModalClose = () => {
+    setOpenRefreshModal(false);
+  };
+
+  const handleRefreshConfirm = () => {
+    sessionStorage.clear();
+    navigate("/",{ replace: true });
+  };
+
   if (initialLoading) {
     return (
       <Backdrop
@@ -160,7 +191,9 @@ const IQQuizPage = () => {
 
       <IQQuestionBox
         index={IQQuizState?.currentQuestionIndex}
-        Question={IQQuizState?.questionsList[IQQuizState?.currentQuestionIndex]}
+        Question={
+          IQQuizState?.questionsList[IQQuizState?.currentQuestionIndex]
+        }
       />
       <IQQuizProgressBar
         currentQuestion={IQQuizState?.currentQuestionIndex + 1}
@@ -171,7 +204,7 @@ const IQQuizPage = () => {
         handleSubmit={handleSubmit}
       />
 
-      
+      {/* Tab Switching Warning Modal */}
       <Modal
         open={openModal}
         onClose={handleModalClose}
@@ -195,7 +228,6 @@ const IQQuizPage = () => {
               xs: "60%",
             },
             bgcolor: "background.paper",
-           
             p: 4,
             borderRadius: 2,
             boxShadow: "2px 3px #FFDA55",
@@ -250,10 +282,10 @@ const IQQuizPage = () => {
               Warning
             </Typography>
           </Box>
-          <Typography id="modal-description" sx={{ mt: 2 , fontWeight:'bold'}}>
+          <Typography id="modal-description" sx={{ mt: 2, fontWeight: "bold" }}>
             {warningMessage}
           </Typography>
-          
+
           <Button
             type="submit"
             fullWidth
@@ -261,14 +293,12 @@ const IQQuizPage = () => {
             onClick={handleModalClose}
             sx={{
               fontWeight: "bold",
-              // backgroundColor: "#1A49BA",
               backgroundColor: "#F44230",
               color: "#ffffff",
               "&:hover": {
                 backgroundColor: "Black",
                 boxShadow: "2px 3px #FFDA55",
               },
-              // boxShadow: "2px 3px #1A49BA",
               boxShadow: "2px 3px #FFDA55",
               mt: 3,
             }}
@@ -277,6 +307,8 @@ const IQQuizPage = () => {
           </Button>
         </Box>
       </Modal>
+
+     
     </Box>
   );
 };
