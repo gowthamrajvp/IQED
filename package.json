@@ -22,6 +22,7 @@
     "@mui/material": "^5.16.7",
     "@mui/styles": "^6.0.0",
     "@reduxjs/toolkit": "^2.2.7",
+    "@vercel/analytics": "^1.4.1",
     "animejs": "^3.2.2",
     "chart.js": "^4.4.6",
     "chartjs": "^0.3.24",
@@ -50,6 +51,7 @@
     "slick-carousel": "^1.8.1",
     "socket.io-client": "^4.8.1",
     "vite-plugin-remove-console": "^2.2.0",
+    "vite-plugin-vercel": "^9.0.4",
     "yup": "^1.4.0"
   },
   "devDependencies": {
