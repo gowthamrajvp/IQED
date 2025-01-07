@@ -24,9 +24,9 @@ export const Routers = createBrowserRouter(
   createRoutesFromElements(
 
     <Route path="/" element={<RootLayout />}>
-      <Route index element={<Launch />} />
-      <Route path="*" element={<Navigate to="/" replace />} />
-      {/* <Route index element={<IQAuthPage />} />
+      {/* <Route index element={<Launch />} />
+      */}
+      <Route index element={<IQAuthPage />} />
       <Route element={<IQAuthLayout/>}> 
         <Route path="Home" element={<LandingPage />} />
         <Route path="IQquiz" element={<Outlet />}>
@@ -36,7 +36,8 @@ export const Routers = createBrowserRouter(
           </Route>
         </Route>
       </Route>
-      <Route path="*" element={<PageNotFound />}/> */}
+      <Route path="*" element={<Navigate to="/" replace />} /> 
+      {/* <Route path="*" element={<PageNotFound />}/> */}
     </Route>
   )
   // ,
