@@ -92,14 +92,14 @@ function calculateScores(data) {
   });
 
   const totalPercentage = ((totalScore / (totalPossible || 1)) * 100).toFixed(2);
-  const userIQ = data.IQscore;
+ 
 
   // Calculate z-score and percentage above the general population
   const mean = 100;
   const stdDev = 15;
+  const userIQ = data.IQscore;
   const zScore = (userIQ - mean) / stdDev;
-  const per = 0.5 + (0.5 * erf(zScore / Math.sqrt(2)));
-  const percentile = (per * 100).toFixed(2);
+  const percentile = 0.5 + (0.5 * erf(zScore / Math.sqrt(2)));
 
 
   const iqCategory = iqCategories.find((c) => userIQ >= c.minIQ);
@@ -126,8 +126,8 @@ async function generateChartImageQuickChart(data) {
       labels: ['Logical Reasoning', 'Verbal Comprehension', 'Working Memory', 'Spatial Reasoning'],
       datasets: [{
         label: 'IQ Topic Scores',
-        // data: [data.scores['Logical Reasoning'], data.scores['Verbal Comprehension'], data.scores['Working Memory'], data.scores['Spatial Reasoning']],
-        data: [50, 20, 80, 60],
+        data: [data.percentages['Logical Reasoning'], data.percentages['Verbal Comprehension'], data.percentages['Working Memory'], data.percentages['Spatial Reasoning']],
+        // data: [50, 20, 80, 60],
         backgroundColor: 'rgb(255, 255, 255)',
       }],
     },
@@ -262,7 +262,7 @@ async function generatePdf(name, reportData, imageData, barImageBuffer) {
   });
 
   //Words for Score under
-  const iqWords = `Your IQ is higher than ${reportData.percentile}% of the general population.`;
+  const iqWords = `Your IQ is higher than ${(reportData.percentile * 100).toFixed(2)}% of the general population.`;
   const iqWordsTextWidth = customFont.widthOfTextAtSize(iqWords, 12);
   const iqWordsTextX = (width - iqWordsTextWidth) / 2;
 
@@ -365,10 +365,24 @@ async function generatePdf(name, reportData, imageData, barImageBuffer) {
     height: barchartHeight,
   });
 
-  const strengthsSentence = `"Your ${reportData.scores['Logical Reasoning'] >= reportData.scores['Spatial Reasoning'] ? 'Logical Reasoning' : 'Spatial Reasoning'} skills are particularly strong, \nshowcasing excellent problem-solving ability and spatial visualization."`;
-
-  const improvementsSentence = `"Your ${reportData.scores['Working Memory'] < reportData.scores['Verbal Comprehension'] ? 'Working Memory' : 'Verbal Comprehension'} shows potential for improvement, \nand could benefit from focused exercises to enhance performance."`;
-
+  const topics = [
+    { name: 'Logical Reasoning', percentage: reportData.percentages['Logical Reasoning'] },
+    { name: 'Verbal Comprehension', percentage: reportData.percentages['Verbal Comprehension'] },
+    { name: 'Working Memory', percentage: reportData.percentages['Working Memory'] },
+    { name: 'Spatial Reasoning', percentage: reportData.percentages['Spatial Reasoning'] },
+  ];
+  
+  // Sort topics by percentage in descending order
+  const sortedTopics = topics.sort((a, b) => b.percentage - a.percentage);
+  
+  // Top 2 topics for strengths
+  const topTwo = sortedTopics.slice(0, 2);
+  const strengthsSentence = `Your ${topTwo[0].name} and ${topTwo[1].name} skills are particularly strong,\n showcasing excellent abilities in these areas.`;
+  
+  // Bottom 2 topics for improvements
+  const bottomTwo = sortedTopics.slice(-2);
+  const improvementsSentence = `Your ${bottomTwo[0].name} and ${bottomTwo[1].name} show potential for improvement and \ncould benefit from focused exercises to enhance performance.`;
+  
 
   // Draw Strengths and Improvement Areas text
   const strengthsY = 230;
