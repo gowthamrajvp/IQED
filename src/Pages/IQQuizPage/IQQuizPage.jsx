@@ -25,6 +25,8 @@ import {
 import { feedback, warning } from "../../assets";
 
 const IQQuizPage = () => {
+  const [animationInProgress, setAnimationInProgress] = useState(false);
+
 
   const navigate = useNavigate();
   useEffect(()=>{
@@ -194,6 +196,8 @@ const IQQuizPage = () => {
         Question={
           IQQuizState?.questionsList[IQQuizState?.currentQuestionIndex]
         }
+        animationInProgress={animationInProgress} 
+        setAnimationInProgress={setAnimationInProgress}
       />
       <IQQuizProgressBar
         currentQuestion={IQQuizState?.currentQuestionIndex + 1}
@@ -202,6 +206,7 @@ const IQQuizPage = () => {
         onPrevious={handleOnPrevious}
         onNext={handleOnNext}
         handleSubmit={handleSubmit}
+        animationInProgress={animationInProgress} // Pass it down here
       />
 
       {/* Tab Switching Warning Modal */}

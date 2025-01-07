@@ -2,10 +2,10 @@ import { useEffect, useState } from "react";
 import { Box, Modal, Typography } from "@mui/material";
 import { OptionButton } from "../../Common";
 
-const IQQuestionBox = ({ index, Question }) => {
+const IQQuestionBox = ({ index, Question,animationInProgress, setAnimationInProgress  }) => {
   const [fade, setFade] = useState(false); 
   const [currentQuestion, setCurrentQuestion] = useState(Question);
-  const [animationInProgress, setAnimationInProgress] = useState(false);
+  // const [animationInProgress, setAnimationInProgress] = useState(false);
   const [imageFade, setImageFade] = useState(false); 
   const [open, setOpen] = useState(false);
   const [visibleQuestion, setVisibleQuestion] = useState(Question);

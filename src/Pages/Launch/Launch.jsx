@@ -8,12 +8,24 @@ const LandingPage = () => {
   const isSm = useMediaQuery(theme.breakpoints.down("sm"));
 
   // Calculate the time until tomorrow at 12:00 PM
-  const now = new Date();
-  const tomorrow = new Date();
-  tomorrow.setDate(now.getDate() + 1);
-  tomorrow.setHours(9, 0, 0, 0);
-  const initialTime = Math.floor((tomorrow - now) / 1000); // Time in seconds
+  // const now = new Date();
+  // const tomorrow = new Date();
+  // tomorrow.setDate(now.getDate() + 1);
+  // tomorrow.setHours(9, 0, 0, 0);
+  // const initialTime = Math.floor((tomorrow - now) / 1000); // Time in seconds
 
+
+  const now = new Date();
+  const targetTime = new Date();
+  targetTime.setHours(9, 0, 0, 0); // Set to 9:00 AM today
+
+  // If it's already past 9:00 AM today, set it for 9:00 AM tomorrow
+  if (now > targetTime) {
+    targetTime.setDate(targetTime.getDate() + 1);
+  }
+
+  const initialTime = Math.floor((targetTime - now) / 1000);
+  
   return (
     <Box
       sx={{
