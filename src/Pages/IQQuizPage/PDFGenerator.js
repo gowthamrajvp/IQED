@@ -2,7 +2,7 @@ import { PDFDocument, rgb } from "pdf-lib";
 // import data from "./1111jason.json";
 import { IQTestResultTem1, Poppins_Bold } from "../../assets";
 import * as fontkit from "fontkit";
-
+// import { erf } from 'mathjs';
 
 // Error function (erf) implementation
 function erf(x) {
@@ -99,7 +99,7 @@ function calculateScores(data) {
   const stdDev = 15;
   const userIQ = data.IQscore;
   const zScore = (userIQ - mean) / stdDev;
-  const percentile = 0.5 + (0.5 * erf(zScore / Math.sqrt(2)));
+  const percentile = (0.5 + (0.5 * erf(zScore / Math.sqrt(2)))).toFixed(4);
 
 
   const iqCategory = iqCategories.find((c) => userIQ >= c.minIQ);

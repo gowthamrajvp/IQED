@@ -130,7 +130,7 @@ const LandingContainer = () => {
           </Typography>
 
           <Divider sx={{ bgcolor: "#FFDA55", my: "4%" }} />
-          <Typography
+          {/* <Typography
             sx={{
               color: "#fff",
               fontSize: { xs: "12px", md: "16px" },
@@ -140,7 +140,7 @@ const LandingContainer = () => {
             }}
           >
             Please select your age range to start the test
-          </Typography>
+          </Typography> */}
           <Box
             sx={{
               display: "flex",
@@ -148,7 +148,33 @@ const LandingContainer = () => {
               width: "100%",
             }}
           >
-            {ageGroups.map((ageGroup) => (
+            <Button
+                // key={ageGroup.value}
+                // onClick={() => setSelectedAgeGroup(ageGroup.value)}
+                variant="contained"
+                // disabled
+                sx={{
+                  fontWeight: "bold",
+                  fontSize: { md: "20px" },
+                  backgroundColor: "#FFDA55",
+                  color: "#02216F",
+                  boxShadow: "2px 3px white",
+                  borderRadius: { xs: "5px", md: "10px" },
+                  textTransform: "none",
+                  border: "1px solid",
+                  px: "8%",
+                  borderColor: "white",
+                  "&:hover": {
+                    color: "#fff",
+                    backgroundColor: "black",
+                    transform: "translateY(-5px)",
+                    transition: "transform 0.3s ease-in-out",
+                  },
+                }}
+              >
+                Active Soon!
+              </Button>
+            {/* {ageGroups.map((ageGroup) => (
               <Button
                 key={ageGroup.value}
                 onClick={() => setSelectedAgeGroup(ageGroup.value)}
@@ -174,7 +200,7 @@ const LandingContainer = () => {
               >
                 {ageGroup.label}
               </Button>
-            ))}
+            ))} */}
           </Box>
         </Box>
       )}
