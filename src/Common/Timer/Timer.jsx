@@ -1,7 +1,13 @@
 import { Box, Typography } from "@mui/material";
 import { useState, useEffect, forwardRef, useImperativeHandle } from "react";
+import toast from "react-hot-toast";
+import { tick, tickLast5 } from "../../assets";
 
-const Timer = forwardRef(({ start, initialTime, isMP = false }, ref) => {
+// Assuming you have a beep sound file in your project directory
+const beepSound = new Audio(tick);
+const beepLast5Sound = new Audio(tickLast5);
+
+const Timer = forwardRef(({ start, initialTime, isMP = false, handleQuit, handlesubmit }, ref) => {
   const [time, setTime] = useState(initialTime);
   const [isRunning, setIsRunning] = useState(false);
 
@@ -13,11 +19,26 @@ const Timer = forwardRef(({ start, initialTime, isMP = false }, ref) => {
     if (!isRunning) return;
 
     const timerId = setInterval(() => {
-      setTime((prevTime) => (prevTime > 0 ? prevTime - 1 : 0));
+      setTime((prevTime) => {
+        if (prevTime > 1) {
+          if (prevTime <= 30) {
+            beepSound.play().catch(() => console.log("Error playing sound"));
+          }
+          if (prevTime <= 5) {
+            beepLast5Sound.play().catch(() => console.log("Error playing sound"));
+          }
+          return prevTime - 1;
+        } else {
+          clearInterval(timerId);
+          toast.error("Time up!");
+          handlesubmit();
+          return 0;
+        }
+      });
     }, 1000);
 
     return () => clearInterval(timerId);
-  }, [isRunning]);
+  }, [isRunning, handlesubmit]);
 
   const formatTime = (seconds) => {
     const minutes = Math.floor(seconds / 60);
@@ -36,6 +57,8 @@ const Timer = forwardRef(({ start, initialTime, isMP = false }, ref) => {
     getCurrentTime: () => time,
   }));
 
+  const isLast30Seconds = time <= 30;
+
   return (
     <Box
       display="flex"
@@ -43,17 +66,25 @@ const Timer = forwardRef(({ start, initialTime, isMP = false }, ref) => {
       alignItems="center"
       sx={{
         position: "fixed",
-        top: isMP?{lg:'0%',xs:"10%",sm:"10%"}:"0%",
+        top: isMP ? { lg: "0%", xs: "10%", sm: "10%" } : "0%",
         right: "0%",
-        bgcolor: "#02216F60",
+        bgcolor: "#02216F 60", 
         width: { lg: "250px", xs: "150px", sm: "150px" },
         height: { lg: "80px", xs: "50px", sm: "50px" },
         justifyContent: "center",
         alignItems: "center",
-        borderRadius: isMP?{lg:"0 0 0 20px",xs: "20px 0 0 20px", sm: "20px 0 0 20px"}:"0 0 0 20px",
+        borderRadius: isMP
+          ? { lg: "0 0 0 20px", xs: "20px 0 0 20px", sm: "20px 0 0 20px" }
+          : "0 0 0 20px",
         borderLeft: "2px solid #FFDA55",
         borderBottom: "2px solid #FFDA55",
-        ...isMP&&{borderTop: {lg:"0px solid #FFDA55",xs:"2px solid #FFDA55",sm: "2px solid #FFDA55"}},
+        ...(isMP && {
+          borderTop: {
+            lg: "0px solid #FFDA55",
+            xs: "2px solid #FFDA55",
+            sm: "2px solid #FFDA55",
+          },
+        }),
       }}
       gap={1}
     >
@@ -64,7 +95,7 @@ const Timer = forwardRef(({ start, initialTime, isMP = false }, ref) => {
             sx={{
               width: { lg: "40px", xs: "20px", sm: "20px" },
               height: { lg: "40px", xs: "20px", sm: "20px" },
-              bgcolor: char === ":" ? "transparent" : "#FFDA55",
+              bgcolor: char === ":" ? "transparent" : (isLast30Seconds ? "red" : "#FFDA55"),
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
@@ -77,7 +108,7 @@ const Timer = forwardRef(({ start, initialTime, isMP = false }, ref) => {
               sx={{
                 fontWeight: "bold",
                 fontSize: { lg: "18px", xs: "12px", sm: "12px" },
-                color: char === ":" ? "white" : "#02216F",
+                color: char === ":" ? "white" : (isLast30Seconds ? "white" : "#02216F"),
               }}
             >
               {char}

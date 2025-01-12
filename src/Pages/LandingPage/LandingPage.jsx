@@ -1,5 +1,5 @@
 import LandingHeader from "../../Components/Landing/LandingHeader";
-import LandingContainer from "../../Components/Landing/LandingContainer";
+import LandingContainer from "../../Components/Landing/LandingContainer1";
 
 
 

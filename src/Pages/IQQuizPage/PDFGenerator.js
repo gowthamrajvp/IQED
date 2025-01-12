@@ -2,19 +2,7 @@ import { PDFDocument, rgb } from "pdf-lib";
 // import data from "./1111jason.json";
 import { IQTestResultTem1, Poppins_Bold } from "../../assets";
 import * as fontkit from "fontkit";
-// import { erf } from 'mathjs';
-
-// Error function (erf) implementation
-function erf(x) {
-  const a = 0.147;
-  const sign = x >= 0 ? 1 : -1;
-  x = Math.abs(x);
-
-  const t = 1 / (1 + a * x);
-  const result = 1 - (((((1. + 0.278393 * t) + 0.230389 * t * t) - 0.000972 * t * t * t) - 0.078108 * t * t * t * t) * Math.exp(-x * x));
-
-  return sign * result;
-}
+import { erf } from 'mathjs';
 
 const topicIds = {
   "Logical Reasoning": "67526dd396614be3a886aac6",
@@ -62,18 +50,29 @@ function calculateScores(data) {
     "Spatial Reasoning": 0,
   };
 
-  data.answeredQuestions.forEach((answered) => {
-    const question = data.questionsList.find((q) => q._id === answered.questionId);
-    if (question) {
-      const topic = Object.keys(topicIds).find((key) => question.topics.includes(topicIds[key]));
-      if (topic) {
-        totalQuestions[topic]++;
-        if (answered.correct) {
+  data.questionsList.forEach((question) => {
+    const topic = Object.keys(topicIds).find((key) =>
+      question.topics.includes(topicIds[key])
+    );
+    if (topic) {
+      totalQuestions[topic]++;
+    }
+  });
+
+  // Calculate scores based on answeredQuestions
+  if (data.answeredQuestions) {
+    data.answeredQuestions.forEach((answered) => {
+      const question = data.questionsList.find((q) => q._id === answered.questionId);
+      if (question) {
+        const topic = Object.keys(topicIds).find((key) =>
+          question.topics.includes(topicIds[key])
+        );
+        if (topic && answered.correct) {
           scores[topic]++;
         }
       }
-    }
-  });
+    });
+  }
 
   const percentages = {};
   const feedback = {};
@@ -99,7 +98,8 @@ function calculateScores(data) {
   const stdDev = 15;
   const userIQ = data.IQscore;
   const zScore = (userIQ - mean) / stdDev;
-  const percentile = (0.5 + (0.5 * erf(zScore / Math.sqrt(2)))).toFixed(4);
+  const per = 0.5 + 0.5 * erf(zScore / Math.sqrt(2));
+  const percentile = (per * 100).toFixed(2)
 
 
   const iqCategory = iqCategories.find((c) => userIQ >= c.minIQ);
@@ -262,7 +262,7 @@ async function generatePdf(name, reportData, imageData, barImageBuffer) {
   });
 
   //Words for Score under
-  const iqWords = `Your IQ is higher than ${(reportData.percentile * 100).toFixed(2)}% of the general population.`;
+  const iqWords = `Your IQ is higher than ${reportData.percentile}% of the general population.`;
   const iqWordsTextWidth = customFont.widthOfTextAtSize(iqWords, 12);
   const iqWordsTextX = (width - iqWordsTextWidth) / 2;
 
