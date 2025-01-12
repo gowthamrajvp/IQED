@@ -3,9 +3,27 @@ import { useState, useEffect, forwardRef, useImperativeHandle } from "react";
 import toast from "react-hot-toast";
 import { tick, tickLast5 } from "../../assets";
 
-// Assuming you have a beep sound file in your project directory
+
+
+
 const beepSound = new Audio(tick);
 const beepLast5Sound = new Audio(tickLast5);
+
+const playSound = (sound) => {
+ 
+  // if (num > 0) {
+  //   audio = new Audio(countdownSound);
+  // } else if (num === 0) {
+  //   audio = new Audio(letsGoSound);
+  // }
+
+  if (sound) {
+    sound.volume = 0.5;
+    sound.play();
+  }
+};
+
+
 
 const Timer = forwardRef(({ start, initialTime, isMP = false, handleQuit, handlesubmit }, ref) => {
   const [time, setTime] = useState(initialTime);
@@ -16,29 +34,56 @@ const Timer = forwardRef(({ start, initialTime, isMP = false, handleQuit, handle
   }, [start]);
 
   useEffect(() => {
+    let toastShownFor30 = false;
+    let toastShownFor15 = false;
+    let toastShownFor5 = false;
+    let timeUpTriggered = false;
+    
     if (!isRunning) return;
-
+  
     const timerId = setInterval(() => {
       setTime((prevTime) => {
-        if (prevTime > 1) {
-          if (prevTime <= 30) {
-            beepSound.play().catch(() => console.log("Error playing sound"));
-          }
-          if (prevTime <= 5) {
-            beepLast5Sound.play().catch(() => console.log("Error playing sound"));
-          }
-          return prevTime - 1;
-        } else {
-          clearInterval(timerId);
-          toast.error("Time up!");
-          handlesubmit();
-          return 0;
+        const updatedTime = prevTime - 1;
+  
+        // Check for toast triggers
+        if (updatedTime === 30 && !toastShownFor30) {
+          toast("30 seconds remaining!", { icon: "⏳" });
+          playSound(beepSound);
+          toastShownFor30 = true;
         }
+        if (updatedTime === 15 && !toastShownFor15) {
+          toast("15 seconds left!", { icon: "⚠️" });
+          playSound(beepSound);
+          toastShownFor15 = true;
+        }
+        if (updatedTime === 5 && !toastShownFor5) {
+          toast("Only 5 seconds left!", { icon: "⏰" });
+          playSound(beepLast5Sound);
+          toastShownFor5 = true;
+        }
+        if (updatedTime <= 5 && updatedTime > 0) {
+          playSound(beepLast5Sound);
+        } else if (updatedTime <= 30 && updatedTime > 5) {
+          playSound(beepSound);
+        }
+  
+        if (updatedTime <= 0) {
+          if (!timeUpTriggered) {
+            timeUpTriggered = true;
+            clearInterval(timerId);
+            toast.error("Time up!");
+            handlesubmit();
+          }
+        }
+  
+        return updatedTime;
       });
     }, 1000);
-
+  
     return () => clearInterval(timerId);
   }, [isRunning, handlesubmit]);
+  
+  
 
   const formatTime = (seconds) => {
     const minutes = Math.floor(seconds / 60);
