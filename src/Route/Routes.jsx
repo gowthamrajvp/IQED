@@ -24,10 +24,10 @@ export const Routers = createBrowserRouter(
   createRoutesFromElements(
 
     <Route path="/" element={<RootLayout />}>
-      {/* <Route index element={<Launch />} />
-      */}
-      {/* <Route index element={<LandingPage />} /> */}
-      <Route index element={<IQAuthPage />} />
+      {/* <Route index element={<Launch />} /> */}
+     
+      <Route index element={<LandingPage />} />
+      {/* <Route index element={<IQAuthPage />} />
       <Route element={<IQAuthLayout/>}> 
         <Route path="Home" element={<LandingPage />} />
         <Route path="IQquiz" element={<Outlet />}>
@@ -36,7 +36,7 @@ export const Routers = createBrowserRouter(
             <Route path="result" element={<GQSuccessPage />} />
           </Route>
         </Route>
-      </Route>
+      </Route> */}
       <Route path="*" element={<Navigate to="/" replace />} /> 
       {/* <Route path="*" element={<PageNotFound />}/> */}
     </Route>
